@@ -1,0 +1,16 @@
+name: monitoring
+services:
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter-2
+    ports:
+      - "9100:9100"
+    networks:
+      - monitoring
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+networks:
+  monitoring:
+    driver: bridge
