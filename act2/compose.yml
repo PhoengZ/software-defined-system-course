@@ -3,7 +3,7 @@ name: monitoring
 services:
   node-exporter:
     image: prom/node-exporter:latest
-    container_name: node-exporter-1
+    # container_name: node-exporter-1
     ports:
       - "9100"
     networks:
@@ -43,6 +43,3 @@ volumes:
 networks:
   monitoring:
     driver: bridge
-    # ipam:
-    #   config:
-    #     - subnet: 10.5.0.0/24 # บังคับให้ Docker ใช้วง 10.5.0.x เพื่อหนีการชนกับวง 172.20.x.x
