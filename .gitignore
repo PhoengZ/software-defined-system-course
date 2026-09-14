@@ -1,1 +1,7 @@
 lectures/
+
+# Terraform
+**/.terraform/
+*.tfstate
+*.tfstate.*
+

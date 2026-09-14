@@ -1,0 +1,48 @@
+version: "3.8"
+
+services:
+  nginx:
+    image: "phoeng/nginx:1.1.0"
+    container_name: api-gateway
+    ports:
+      - "8000:8000"
+    networks:
+      - todo-net
+    depends_on:
+      - todo-service
+      - notification-service
+  todo-service:
+    image: "todo:release-2"
+    container_name: todo-service
+    environment:
+      REDIS_HOST: redis
+      NOTIFICATION_HOST: notification
+    networks:
+      - todo-net
+
+  notification-service:
+    image: "todo-notification:release-2"
+    container_name: notification-service
+    environment:
+      REDIS_HOST: redis
+    networks:
+      - todo-net
+
+  webapp:
+    image: "todo-webapp:release-1"
+    container_name: webapp
+    stdin_open: true
+    ports:
+      - 3000:3000
+    networks:
+      - todo-net
+  redis:
+    image: "redis"
+    container_name: redis
+    networks:
+      - todo-net
+
+networks:
+    todo-net:
+      driver: bridge
+      # internal: true
