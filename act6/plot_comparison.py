@@ -19,8 +19,8 @@ def load_data(filepath):
     return iterations, times
 
 host_file = os.path.join(data_dir, "result.txt")
-cloud_credit_file = os.path.join(data_dir, "result1.txt")
-cloud_no_credit_file = os.path.join(data_dir, "result2.txt")
+cloud_credit_file = os.path.join(data_dir, "result_credit.txt")
+cloud_no_credit_file = os.path.join(data_dir, "result_nocredit.txt")
 
 iter_host, time_host = load_data(host_file)
 iter_credit, time_credit = load_data(cloud_credit_file)
@@ -42,3 +42,22 @@ plt.tight_layout()
 output_path = os.path.join(base_dir, "comparison_plot.png")
 plt.savefig(output_path, dpi=300)
 print(f"Graph saved successfully to: {output_path}")
+
+# Generate log-scale plot
+plt.figure(figsize=(10, 6), dpi=300)
+
+plt.plot(iter_nocredit, time_nocredit, label="1. Cloud t3.micro (No Credits)", color="#d62728", linewidth=1.5)
+plt.plot(iter_credit, time_credit, label="2. Cloud t3.micro (With Credits)", color="#1f77b4", linewidth=1.5)
+plt.plot(iter_host, time_host, label="3. Physical Machine (Host PC)", color="#2ca02c", linewidth=1.5)
+
+plt.yscale("log")
+plt.title("CPU Performance Comparison Across 3 Scenarios (Log Scale)", fontsize=14, fontweight="bold", pad=12)
+plt.xlabel("Iteration", fontsize=12)
+plt.ylabel("Time (seconds) since 0'th round [Log Scale]", fontsize=12)
+plt.grid(True, which="both", linestyle="--", alpha=0.6)
+plt.legend(fontsize=11, loc="upper left")
+
+plt.tight_layout()
+log_output_path = os.path.join(base_dir, "log_plot.png")
+plt.savefig(log_output_path, dpi=300)
+print(f"Graph saved successfully to: {log_output_path}")

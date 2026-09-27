@@ -5,3 +5,5 @@ lectures/
 *.tfstate
 *.tfstate.*
 
+phao_key.pem
+*.pem
