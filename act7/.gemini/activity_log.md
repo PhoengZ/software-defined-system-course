@@ -99,3 +99,12 @@
 - **Attempted**: Confirmed to user that `c6gd.medium` is unlocked and clarified AWS credit consumption order.
 - **Hypothesis**: AWS billing systems strictly deduct from promotional/lab credits first before billing any credit card or external payment method. Running `c6gd.medium` (~$0.0384/hr) for the duration of this single-trial benchmark will consume only a negligible amount of credits.
 - **Observed Result**: Reassured user and prepared to guide through SSH, NVMe mounting, and benchmark execution.
+
+## [2026-09-29 15:36] Storage Architecture Clarification: EBS vs Ephemeral vs S3 Attachment
+- **Topic**: Storage Attachment Mechanism
+- **Attempted**: Clarified user inquiry regarding why they don't explicitly attach bucket, EBS, or ephemeral storage during EC2 launch.
+- **Hypothesis**:
+  1. EBS: The 60 GB Volume 1 specified during launch IS the EBS Root Volume (gp3).
+  2. Ephemeral Storage: Physically direct-attached NVMe SSD (~59 GB) included automatically with `c6gd.medium` hardware; requires POSIX formatting (`mkfs.ext4`) and mounting (`mount`) inside Linux OS.
+  3. Amazon S3: Object storage accessed over HTTPS REST API via IAM Role/Profile permissions, never mounted as a block device.
+- **Observed Result**: Clearly articulated the 3 distinct storage access models.
