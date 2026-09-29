@@ -73,3 +73,9 @@
 - **Attempted**: Advised user that if the policy can be saved and created successfully by pressing "Next", the Access Analyzer error was purely a real-time UI notification that does not impede policy creation or subsequent role attachment.
 - **Hypothesis**: The IAM Policy will function normally when attached to an IAM Role and EC2 instance profile once created.
 - **Observed Result**: User proceeding to create Role and launch EC2 instance.
+
+## [2026-09-29 15:16] Regional Alignment: Enforcing ap-southeast-2 (Sydney)
+- **Topic**: AWS Academy Regional Locking & Performance Isolation
+- **Attempted**: Addressed user finding that S3 Bucket region is defaulted/locked to `Asia Pacific (Sydney) ap-southeast-2`.
+- **Hypothesis**: AWS Academy / Lab accounts restrict resource provisioning to designated regions (Sydney in this course). To prevent cross-region network latency (which would unfairly throttle S3 benchmark times), the EC2 `c6gd.medium` instance must be provisioned in the exact same region (`ap-southeast-2`).
+- **Observed Result**: Advised user to accept `ap-southeast-2` and verify that the EC2 Console region selector is also set to Sydney before launching.
