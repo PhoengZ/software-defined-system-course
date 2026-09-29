@@ -20,3 +20,9 @@
 - **Attempted**: Created `FIRST_PLAN.md` directly in the project root directory detailing the Manual vs Code steps, AWS credential setup at `C:\Users\USER\.aws\credentials`, virtual environment creation, benchmark code specifications, and the spreadsheet verification gate.
 - **Hypothesis**: Having `FIRST_PLAN.md` within the current directory allows the user to review the full initialize plan locally and establishes the formal gate for receiving the spreadsheet before Second Plan generation.
 - **Observed Result**: `FIRST_PLAN.md` created successfully. Awaiting user review, plan confirmation, and spreadsheet attachment.
+
+## [2026-09-29 14:14] Refactored FIRST_PLAN.md to Adopt Method 2 (IAM Role for EC2)
+- **Topic**: Architecture Alignment with Assignment Requirements (IAM Role vs Local Credentials)
+- **Attempted**: Updated `FIRST_PLAN.md` and `initial_implementation_plan.md` to establish Method 2 (IAM Role for EC2 Instance Profile with least-privilege S3 Policy) as the primary credential mechanism, directly fulfilling the lab requirement ("set up your credentials using roles") and Question 6.
+- **Hypothesis**: Adopting IAM Role eliminates hardcoded/stored long-term credentials on EC2, utilizes IMDS for temporary security tokens, and adheres to AWS Best Practice.
+- **Observed Result**: Plan successfully refactored and aligned with user instruction and assignment specification.

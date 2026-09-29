@@ -56,7 +56,9 @@
 
 ---
 
-### Phase 2: การกำหนดค่า AWS IAM & Local Credentials ที่ `C:\Users\USER\.aws\credentials`
+### Phase 2: การสร้างและกำหนดค่า IAM Role (Instance Profile) สำหรับ EC2 (ยึดตามวิธีที่ 2 - Best Practice ตามโจทย์)
+
+> **เหตุผลที่ยึดวิธีที่ 2**: ในเอกสารโจทย์หน้า 1 ระบุชัดเจนว่า *"You will need to set up your credentials using roles"* และคำถามข้อ 6 ถามถึงสิทธิ์ที่ใช้ การใช้ IAM Role แนบกับ EC2 เป็น Best Practice สูงสุดด้านความปลอดภัย โค้ด Boto3 บน EC2 จะดึง Temporary Token ผ่าน Instance Metadata Service (IMDS) อัตโนมัติ โดยไม่ต้องฝังหรือจัดเก็บ Access Key ถาวรไว้ในเครื่องเซิร์ฟเวอร์
 
 * **2.1 สร้าง IAM Policy JSON แบบ Least-Privilege [Code / Automated by AI]**
   * สร้างไฟล์ `iam_s3_least_privilege_policy.json` เพื่อกำหนดสิทธิ์เฉพาะ S3 Actions ที่จำเป็นตามหลัก Least Privilege (เพื่อตอบคำถามข้อ 6):
@@ -65,7 +67,7 @@
       "Version": "2012-10-17",
       "Statement": [
         {
-          "Sid": "VisualEditor0",
+          "Sid": "LeastPrivilegeS3BenchmarkAccess",
           "Effect": "Allow",
           "Action": [
             "s3:PutObject",
@@ -81,30 +83,26 @@
       ]
     }
     ```
-* **2.2 สร้าง IAM User และ Access Key บน AWS Console [Manual by User]**
+* **2.2 สร้าง IAM Role บน AWS Console [Manual by User]**
   * เข้าสู่ AWS Management Console -> บริการ **IAM**
-  * ไปที่ **Users** -> คลิก **Create user** (ตั้งชื่อ เช่น `act7-benchmark-user`)
-  * กำหนด Permissions: เลือก **Attach policies directly** -> **Create policy** แล้ววาง JSON จากข้อ 2.1
-  * เมื่อสร้าง User เสร็จ ให้เข้าไปที่แท็บ **Security credentials** -> **Create access key** (เลือก Use case เป็น *Command Line Interface (CLI)* หรือ *Local code*)
-  * บันทึกค่า **Access Key ID** และ **Secret Access Key**
-* **2.3 เตรียมโฟลเดอร์และไฟล์ Local AWS Credentials [Code / Automated via Script]**
-  * ตรวจสอบและสร้างโฟลเดอร์ `C:\Users\USER\.aws\` หากยังไม่มี
-  * เตรียมไฟล์แม่แบบ `C:\Users\USER\.aws\credentials` และ `C:\Users\USER\.aws\config`
-* **2.4 บันทึก Credentials ลงในเครื่อง Local [Manual by User]**
-  * นำ Key ที่ได้จาก AWS Console มาใส่ใน `C:\Users\USER\.aws\credentials`:
-    ```ini
-    [default]
-    aws_access_key_id = <YOUR_ACCESS_KEY_ID>
-    aws_secret_access_key = <YOUR_SECRET_ACCESS_KEY>
-    ```
-  * และกำหนด Region ใน `C:\Users\USER\.aws\config`:
-    ```ini
-    [default]
-    region = ap-southeast-1
-    output = json
-    ```
-* **2.5 ทดสอบการเข้าถึง AWS จาก Local Machine [Code / Automated via Script]**
-  * รันสคริปต์สั้น `verify_aws_creds.py` ผ่าน `boto3` เพื่อตรวจสอบว่าระบบ Local สามารถอ่าน credentials จาก `C:\Users\USER\.aws\credentials` และเรียกใช้ AWS STS/S3 ได้อย่างถูกต้อง
+  * ไปที่ **Roles** -> คลิก **Create role**
+  * ในหน้าเลือก Trusted entity type:
+    * เลือก **AWS service**
+    * ในช่อง Use case ให้เลือก **EC2** -> คลิก **Next**
+  * ในหน้า Add permissions:
+    * กด **Create policy** แล้วนำ JSON จากข้อ 2.1 ไปวาง บันทึกชื่อ policy เช่น `Act7-S3-LeastPrivilege-Policy`
+    * กลับมาหน้าสร้าง Role ติ๊กเลือก Policy ดังกล่าว -> คลิก **Next**
+  * ตั้งชื่อ Role เช่น `EC2-S3-Benchmark-Role` -> ตรวจสอบแล้วคลิก **Create role**
+* **2.3 แนบ IAM Role เข้ากับ EC2 Instance [Manual by User]**
+  * ไปที่ **EC2 Console** -> เมนู **Instances**
+  * เลือกอินสแตนซ์ `c6gd.medium` ของเรา
+  * คลิกเมนู **Actions** -> **Security** -> **Modify IAM role**
+  * เลือก Role `EC2-S3-Benchmark-Role` แล้วคลิก **Update IAM role**
+  * *ผลลัพธ์*: อินสแตนซ์ EC2 จะสามารถเรียกใช้ S3 API ผ่าน `boto3` ได้ทันทีโดยไม่ต้องมีไฟล์ `credentials`
+* **2.4 (ทางเลือกเสริม) การตั้งค่า Local Credentials บนเครื่องคอมพิวเตอร์ [Optional / Manual by User & Code]**
+  * หากผู้ใช้ต้องการรันสคริปต์จัดการ S3 Bucket จากเครื่อง Local PC สามารถสร้าง Access Key (use case: CLI/Local code) และใส่ใน `C:\Users\USER\.aws\credentials` ได้ควบคู่กัน
+* **2.5 ทดสอบและยืนยันสิทธิ์ Role บน EC2 [Code / Script]**
+  * เตรียมสคริปต์ `verify_s3_role.py` รันบน EC2 เพื่อทดสอบว่า Boto3 สามารถอ่านสิทธิ์จาก IAM Role สำเร็จและติดต่อกับ S3 Bucket ได้ถูกต้อง
 
 ---
 
@@ -116,6 +114,7 @@
   * บน AWS EC2 Console สร้าง Instance ตามสเปก:
     * **AMI**: Ubuntu Server 24.04 LTS (64-bit Arm)
     * **Instance Type**: `c6gd.medium` (*ห้ามเลือก c6g.medium เพราะไม่มี Ephemeral NVMe*)
+    * **IAM Instance Profile**: เลือกแนบ `EC2-S3-Benchmark-Role` ที่สร้างไว้จาก Phase 2 (ในหัวข้อ Advanced details -> IAM instance profile)
     * **Storage**:
       1. EBS Volume (`/dev/sda1` หรือ root volume gp3 ขนาดเริ่มต้นหรือ 60 GB)
       2. Ephemeral Storage (Volume 2 บน `/dev/nvme1n1` ขนาดประมาณ 59 GB)
