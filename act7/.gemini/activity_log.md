@@ -124,3 +124,9 @@
   - 1 MiB: EBS/Ephemeral/S3 [128, 256, 512, 1024, 1536]
   - 128 MiB: EBS/Ephemeral/S3 [1, 2, 4, 8, 12]
 - **Observed Result**: 100% verified. Every single value in code matches the spreadsheet matrix precisely. Local dry-run of `test_fs.py` executed successfully.
+
+## [2026-09-29 16:05] Analysis of Cumulative Iteration Checkpointing vs Experimental Isolation
+- **Topic**: Benchmark Optimization Inquiry (Running max N with intermediate checkpoints)
+- **Attempted**: Evaluated user proposal of running the maximum iteration (e.g. 4096) and recording checkpoints for intermediate values (512, 1024, 2048).
+- **Hypothesis**: While mathematically intuitive, cumulative checkpointing violates the experimental isolation mandate explicitly highlighted on Page 1 of the lab instructions ("delete your old files before running a new round or performance will not be the same"). Running cumulatively causes OS page cache saturation, filesystem directory index bloat, and burst token depletion, which skews Linearity testing (Question 2). Additionally, grading requires submitting standalone `test_fs.py` and `test_s3.py` matching the CLI specification.
+- **Observed Result**: Documented technical explanation advising against cumulative runs to preserve scientific validity and ensure full marks.
