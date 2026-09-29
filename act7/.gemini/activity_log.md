@@ -136,3 +136,9 @@
 - **Attempted**: Evaluated user hypothesis that splitting data into smaller files yields lower time and higher bandwidth.
 - **Hypothesis**: In storage systems, smaller files yield dramatically LOWER bandwidth (throughput) due to per-file metadata overhead (inode allocation, journaling) and network request overhead (HTTP/REST headers, TLS, RTT). Larger files maximize sequential DMA streaming, yielding significantly HIGHER bandwidth. Comparatively: Ephemeral NVMe (PCIe direct bus) > EBS gp3 (network block storage, 3000 IOPS cap) > S3 (HTTP REST API with per-request latency).
 - **Observed Result**: Structured clear explanation directly answering Questions 1, 3, and 4 in advance.
+
+## [2026-09-29 16:24] Benchmark Execution Completed on EC2 Instance
+- **Topic**: Benchmark Completion & Data Ingestion Milestone
+- **Attempted**: Confirmed that `benchmark_runner.py` completed execution on EC2, producing `benchmark_results.json`.
+- **Hypothesis**: The generated `benchmark_results.json` contains empirical metrics for all matrix cells. Transferring it to the local machine enables `sync_to_excel.py` to populate `2110415 Storage Benchmark Template.xlsx`. Once populated, all AWS resources can be safely terminated immediately.
+- **Observed Result**: Guided user to transfer `benchmark_results.json` to local and initiate resource teardown.
