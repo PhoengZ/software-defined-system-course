@@ -39,3 +39,11 @@
   - Designed resource lifecycle and safe teardown protocol (EC2 instance, EBS root volume, S3 objects/bucket, IAM role/policy, Security Groups, Key Pairs) guaranteeing $0 ongoing AWS expenditure after data capture.
 - **Hypothesis**: Having the exact matrix from the spreadsheet enables precise automation scripting and accurate data export back to Excel. AWS resources can be safely and completely dismantled once spreadsheet cells are filled, leaving graph plotting and analysis to run offline.
 - **Observed Result**: Spreadsheet parameters successfully mapped. Ready to present Implementation Plan and deliver Second Plan upon user verification.
+
+## [2026-09-29 14:44] User Directive: Single-Run Policy to Minimize AWS Cost
+- **Topic**: Benchmark Execution Strategy Adjustment
+- **Attempted**: 
+  - Adjusted benchmark plan to execute exactly 1 single trial per scenario ($N$ value) instead of running 3 trials with averaging.
+  - Aligned rationale: Reduces total S3 API calls (PutObject requests cost $0.005 per 1,000 requests) and EC2 runtime, cutting AWS expenditure to the absolute minimum while strictly fulfilling all cells in `2110415 Storage Benchmark Template.xlsx`.
+- **Hypothesis**: A single carefully executed run per configuration provides empirical data directly usable for `Total write time`, `Write time per file`, and `Bandwidth (MB/s)` without redundant cost.
+- **Observed Result**: Constraint integrated into `SECOND_PLAN.md` and automation scripts.

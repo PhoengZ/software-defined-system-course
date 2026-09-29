@@ -1,5 +1,6 @@
 # Data files and benchmark test files
 *.txt
+!requirements.txt
 *.dat
 *.bin
 
