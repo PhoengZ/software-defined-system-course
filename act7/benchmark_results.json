@@ -1,0 +1,334 @@
+{
+  "2 KiB": {
+    "ebs": {
+      "32768": {
+        "total_write_time": 0.9730489253997803,
+        "write_time_per_file": 2.969509660033509e-05,
+        "bandwidth_mb_s": 68.96761534619455
+      },
+      "65536": {
+        "total_write_time": 2.2107994556427,
+        "write_time_per_file": 3.373412255314179e-05,
+        "bandwidth_mb_s": 60.710042087911425
+      },
+      "131072": {
+        "total_write_time": 5.056796312332153,
+        "write_time_per_file": 3.85802941309521e-05,
+        "bandwidth_mb_s": 53.0840950317415
+      },
+      "262144": {
+        "total_write_time": 13.160205841064453,
+        "write_time_per_file": 5.020220123697072e-05,
+        "bandwidth_mb_s": 40.79502391404659
+      },
+      "393216": {
+        "total_write_time": 24.81044340133667,
+        "write_time_per_file": 6.309622040134855e-05,
+        "bandwidth_mb_s": 32.458362592448225
+      }
+    },
+    "ephemeral": {
+      "32768": {
+        "total_write_time": 1.1571943759918213,
+        "write_time_per_file": 3.531476977514103e-05,
+        "bandwidth_mb_s": 57.992732588664346
+      },
+      "65536": {
+        "total_write_time": 2.1471526622772217,
+        "write_time_per_file": 3.2762949558673427e-05,
+        "bandwidth_mb_s": 62.50963443728855
+      },
+      "131072": {
+        "total_write_time": 10.054150342941284,
+        "write_time_per_file": 7.670707964280155e-05,
+        "bandwidth_mb_s": 26.698969763114835
+      },
+      "262144": {
+        "total_write_time": 36.1118803024292,
+        "write_time_per_file": 0.00013775589104625396,
+        "bandwidth_mb_s": 14.866877811507516
+      },
+      "393216": {
+        "total_write_time": 63.47869086265564,
+        "write_time_per_file": 0.00016143465897281808,
+        "bandwidth_mb_s": 12.686247259610072
+      }
+    },
+    "s3": {
+      "512": {
+        "total_write_time": 14.78405475616455,
+        "write_time_per_file": 0.028875106945633888,
+        "bandwidth_mb_s": 0.07092614423406218
+      },
+      "1024": {
+        "total_write_time": 28.657280683517456,
+        "write_time_per_file": 0.027985625667497516,
+        "bandwidth_mb_s": 0.07318042570613476
+      },
+      "2048": {
+        "total_write_time": 56.424309968948364,
+        "write_time_per_file": 0.02755093260202557,
+        "bandwidth_mb_s": 0.07433505172341895
+      },
+      "4096": {
+        "total_write_time": 116.80147981643677,
+        "write_time_per_file": 0.028515986283309758,
+        "bandwidth_mb_s": 0.07181936404558739
+      },
+      "6144": {
+        "total_write_time": 171.9111406803131,
+        "write_time_per_file": 0.027980328886769712,
+        "bandwidth_mb_s": 0.07319427903395308
+      }
+    }
+  },
+  "256 KiB": {
+    "ebs": {
+      "512": {
+        "total_write_time": 0.04608297348022461,
+        "write_time_per_file": 9.000580757856369e-05,
+        "bandwidth_mb_s": 2912.523169920801
+      },
+      "1024": {
+        "total_write_time": 0.279555082321167,
+        "write_time_per_file": 0.00027300301007926464,
+        "bandwidth_mb_s": 960.2238448722167
+      },
+      "2048": {
+        "total_write_time": 2.0947301387786865,
+        "write_time_per_file": 0.0010228174505755305,
+        "bandwidth_mb_s": 256.29597916274685
+      },
+      "4096": {
+        "total_write_time": 6.27784538269043,
+        "write_time_per_file": 0.0015326770953834057,
+        "bandwidth_mb_s": 171.0366787561496
+      },
+      "6144": {
+        "total_write_time": 10.320192098617554,
+        "write_time_per_file": 0.0016797187660510342,
+        "bandwidth_mb_s": 156.0642205696685
+      }
+    },
+    "ephemeral": {
+      "512": {
+        "total_write_time": 0.08451199531555176,
+        "write_time_per_file": 0.00016506249085068703,
+        "bandwidth_mb_s": 1588.1500312335127
+      },
+      "1024": {
+        "total_write_time": 1.1674549579620361,
+        "write_time_per_file": 0.001140092732384801,
+        "bandwidth_mb_s": 229.93217354491642
+      },
+      "2048": {
+        "total_write_time": 9.239577293395996,
+        "write_time_per_file": 0.004511512350291014,
+        "bandwidth_mb_s": 58.10557073684847
+      },
+      "4096": {
+        "total_write_time": 26.104249238967896,
+        "write_time_per_file": 0.006373107724357396,
+        "bandwidth_mb_s": 41.132836810228575
+      },
+      "6144": {
+        "total_write_time": 43.38128733634949,
+        "write_time_per_file": 0.007060756402400632,
+        "bandwidth_mb_s": 37.12690044240472
+      }
+    },
+    "s3": {
+      "512": {
+        "total_write_time": 16.833713054656982,
+        "write_time_per_file": 0.03287834580987692,
+        "bandwidth_mb_s": 7.973150520281036
+      },
+      "1024": {
+        "total_write_time": 32.691279888153076,
+        "write_time_per_file": 0.03192507801577449,
+        "bandwidth_mb_s": 8.2112250397782
+      },
+      "2048": {
+        "total_write_time": 65.14768886566162,
+        "write_time_per_file": 0.03181039495393634,
+        "bandwidth_mb_s": 8.240828206616193
+      },
+      "4096": {
+        "total_write_time": 130.25136041641235,
+        "write_time_per_file": 0.03179964853916317,
+        "bandwidth_mb_s": 8.243613122866876
+      },
+      "6144": {
+        "total_write_time": 193.59166502952576,
+        "write_time_per_file": 0.031509060063399374,
+        "bandwidth_mb_s": 8.319638842686519
+      }
+    }
+  },
+  "1 MiB": {
+    "ebs": {
+      "128": {
+        "total_write_time": 0.04110980033874512,
+        "write_time_per_file": 0.00032117031514644623,
+        "bandwidth_mb_s": 3264.8596415950633
+      },
+      "256": {
+        "total_write_time": 0.08792853355407715,
+        "write_time_per_file": 0.00034347083419561386,
+        "bandwidth_mb_s": 3052.882211835238
+      },
+      "512": {
+        "total_write_time": 1.710195779800415,
+        "write_time_per_file": 0.0033402261324226856,
+        "bandwidth_mb_s": 313.923656192541
+      },
+      "1024": {
+        "total_write_time": 6.255178928375244,
+        "write_time_per_file": 0.006108573172241449,
+        "bandwidth_mb_s": 171.65645240445582
+      },
+      "1536": {
+        "total_write_time": 10.342943668365479,
+        "write_time_per_file": 0.006733687284092109,
+        "bandwidth_mb_s": 155.72092313778685
+      }
+    },
+    "ephemeral": {
+      "128": {
+        "total_write_time": 0.11981368064880371,
+        "write_time_per_file": 0.000936044380068779,
+        "bandwidth_mb_s": 1120.220389468021
+      },
+      "256": {
+        "total_write_time": 1.2687044143676758,
+        "write_time_per_file": 0.0049558766186237335,
+        "bandwidth_mb_s": 211.58234570641787
+      },
+      "512": {
+        "total_write_time": 9.248581647872925,
+        "write_time_per_file": 0.018063636031001806,
+        "bandwidth_mb_s": 58.048999559135055
+      },
+      "1024": {
+        "total_write_time": 25.92590832710266,
+        "write_time_per_file": 0.025318269850686193,
+        "bandwidth_mb_s": 41.41578418209255
+      },
+      "1536": {
+        "total_write_time": 42.16763758659363,
+        "write_time_per_file": 0.027452889053771894,
+        "bandwidth_mb_s": 38.19546999028617
+      }
+    },
+    "s3": {
+      "128": {
+        "total_write_time": 5.80959677696228,
+        "write_time_per_file": 0.045387474820017815,
+        "bandwidth_mb_s": 23.102761371018886
+      },
+      "256": {
+        "total_write_time": 10.477047443389893,
+        "write_time_per_file": 0.04092596657574177,
+        "bandwidth_mb_s": 25.621288578716847
+      },
+      "512": {
+        "total_write_time": 20.535211324691772,
+        "write_time_per_file": 0.04010783461853862,
+        "bandwidth_mb_s": 26.14391951031253
+      },
+      "1024": {
+        "total_write_time": 39.97894811630249,
+        "write_time_per_file": 0.03904194151982665,
+        "bandwidth_mb_s": 26.857680719272174
+      },
+      "1536": {
+        "total_write_time": 61.7808473110199,
+        "write_time_per_file": 0.040221905801445246,
+        "bandwidth_mb_s": 26.069774146861107
+      }
+    }
+  },
+  "128 MiB": {
+    "ebs": {
+      "1": {
+        "total_write_time": 0.03800463676452637,
+        "write_time_per_file": 0.03800463676452637,
+        "bandwidth_mb_s": 3531.6145456566815
+      },
+      "2": {
+        "total_write_time": 0.12607121467590332,
+        "write_time_per_file": 0.06303560733795166,
+        "bandwidth_mb_s": 2129.23669126278
+      },
+      "4": {
+        "total_write_time": 2.3082244396209717,
+        "write_time_per_file": 0.5770561099052429,
+        "bandwidth_mb_s": 232.59042872284914
+      },
+      "8": {
+        "total_write_time": 6.384217977523804,
+        "write_time_per_file": 0.7980272471904755,
+        "bandwidth_mb_s": 168.1868989718399
+      },
+      "12": {
+        "total_write_time": 10.466943502426147,
+        "write_time_per_file": 0.8722452918688456,
+        "bandwidth_mb_s": 153.8761277947735
+      }
+    },
+    "ephemeral": {
+      "1": {
+        "total_write_time": 0.18410682678222656,
+        "write_time_per_file": 0.18410682678222656,
+        "bandwidth_mb_s": 729.0209187015178
+      },
+      "2": {
+        "total_write_time": 2.0307514667510986,
+        "write_time_per_file": 1.0153757333755493,
+        "bandwidth_mb_s": 132.18528234252955
+      },
+      "4": {
+        "total_write_time": 9.747073411941528,
+        "write_time_per_file": 2.436768352985382,
+        "bandwidth_mb_s": 55.08021631829079
+      },
+      "8": {
+        "total_write_time": 25.9418888092041,
+        "write_time_per_file": 3.2427361011505127,
+        "bandwidth_mb_s": 41.39027161426425
+      },
+      "12": {
+        "total_write_time": 42.40697932243347,
+        "write_time_per_file": 3.533914943536123,
+        "bandwidth_mb_s": 37.97989768981209
+      }
+    },
+    "s3": {
+      "1": {
+        "total_write_time": 2.209822177886963,
+        "write_time_per_file": 2.209822177886963,
+        "bandwidth_mb_s": 60.73689066164559
+      },
+      "2": {
+        "total_write_time": 3.7586328983306885,
+        "write_time_per_file": 1.8793164491653442,
+        "bandwidth_mb_s": 71.41837557991352
+      },
+      "4": {
+        "total_write_time": 6.827660083770752,
+        "write_time_per_file": 1.706915020942688,
+        "bandwidth_mb_s": 78.63175750007449
+      },
+      "8": {
+        "total_write_time": 12.86679458618164,
+        "write_time_per_file": 1.608349323272705,
+        "bandwidth_mb_s": 83.45060743824655
+      },
+      "12": {
+        "total_write_time": 18.901304006576538,
+        "write_time_per_file": 1.5751086672147114,
+        "bandwidth_mb_s": 85.21172589148357
+      }
+    }
+  }
+}

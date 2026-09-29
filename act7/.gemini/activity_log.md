@@ -148,3 +148,12 @@
 - **Attempted**: Confirmed that user successfully terminated the EC2 instance and deleted the S3 bucket ($0 ongoing AWS cost). Verified that `2110415 Storage Benchmark Template.xlsx` is 100% populated with empirical metrics and `benchmark_results.json` is preserved locally.
 - **Hypothesis**: With cloud resources completely decommissioned, the remaining deliverables (Graph 1: File Size vs Throughput, Graph 2: Iterations vs Performance, and answering Questions 1-7) can be executed 100% offline locally.
 - **Observed Result**: Initiated automated plotting and question answering preparation.
+
+## [2026-09-29 16:41] Final Deliverables Generated: Graph 1, Graph 2 & Comprehensive Report
+- **Topic**: Report & Visualization Delivery
+- **Attempted**: 
+  - Developed and executed `plot_benchmark_graphs.py` using empirical data from `benchmark_results.json`.
+  - Generated `graph1_file_size_vs_throughput.png` and `graph2_iterations_vs_performance.png`.
+  - Authored `REPORT_SOLUTION.md` providing in-depth architectural and empirical answers to all 7 assignment questions, including least-privilege IAM policy JSON and multi-threaded S3 optimization code.
+- **Hypothesis**: The generated charts and comprehensive answers completely satisfy the submission requirements outlined in `Activity7_...pdf`.
+- **Observed Result**: All files generated, committed, and ready for student submission.
