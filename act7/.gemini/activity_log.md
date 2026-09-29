@@ -79,3 +79,9 @@
 - **Attempted**: Addressed user finding that S3 Bucket region is defaulted/locked to `Asia Pacific (Sydney) ap-southeast-2`.
 - **Hypothesis**: AWS Academy / Lab accounts restrict resource provisioning to designated regions (Sydney in this course). To prevent cross-region network latency (which would unfairly throttle S3 benchmark times), the EC2 `c6gd.medium` instance must be provisioned in the exact same region (`ap-southeast-2`).
 - **Observed Result**: Advised user to accept `ap-southeast-2` and verify that the EC2 Console region selector is also set to Sydney before launching.
+
+## [2026-09-29 15:27] Analysis of EC2 Free Tier Warning for c6gd.medium
+- **Topic**: EC2 Instance Selection & Billing Clarification
+- **Attempted**: Investigated user report stating that `c6gd.medium` is not covered by the free tier/plan.
+- **Hypothesis**: The AWS Console displays an informational badge indicating non-eligibility for the AWS 12-month Free Tier (which only covers `t2.micro`/`t3.micro`). In course/lab accounts, `c6gd.medium` is specifically mandated by the professor for Ephemeral NVMe access and is paid via course lab credits (~$0.0384/hr). If it is purely a UI warning, user can proceed to launch; if it is a hard quota error upon clicking Launch, subnet/AZ adjustment or quota check is needed.
+- **Observed Result**: Clarified the distinction between the Free Tier warning and a launch-blocking error.
