@@ -61,3 +61,9 @@
   - Analyzed file deployment options: Compared manual copy-pasting via `vim` against secure copy (`scp`) and VS Code Remote SSH.
 - **Hypothesis**: While code could technically be pasted into `vim`, `scp` is vastly superior and required anyway because the 4 test data files (especially 128 MiB binary file) cannot be copy-pasted via terminal clipboard without truncation or corruption.
 - **Observed Result**: Documented clear workflow recommending `scp` single-command transfer alongside vim instructions if preferred.
+
+## [2026-09-29 15:07] Root Cause Analysis: AWS SCP Explicit Deny on access-analyzer:ValidatePolicy
+- **Topic**: IAM Console Policy Creation Error Investigation
+- **Attempted**: Analyzed error `access-analyzer:ValidatePolicy with an explicit deny in a service control policy (SCP)`.
+- **Hypothesis**: The user's account belongs to an AWS Organization (likely AWS Academy or university lab sandbox). In the AWS Console JSON editor, IAM Access Analyzer is automatically called in real time to validate policy syntax. The Organization's SCP explicitly denies `access-analyzer:*`. Furthermore, student lab environments often restrict custom IAM role/policy creation and provide a pre-existing role (`LabRole`).
+- **Observed Result**: Formulated 2-tier resolution: (1) Test if pressing "Next" or using CLI bypasses the real-time validator, and (2) If SCP blocks IAM creation entirely, check for the standard pre-configured `LabRole` in the account.
