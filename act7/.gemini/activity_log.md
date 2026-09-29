@@ -108,3 +108,9 @@
   2. Ephemeral Storage: Physically direct-attached NVMe SSD (~59 GB) included automatically with `c6gd.medium` hardware; requires POSIX formatting (`mkfs.ext4`) and mounting (`mount`) inside Linux OS.
   3. Amazon S3: Object storage accessed over HTTPS REST API via IAM Role/Profile permissions, never mounted as a block device.
 - **Observed Result**: Clearly articulated the 3 distinct storage access models.
+
+## [2026-09-29 15:43] Transition to EC2 Configuration & Benchmark Execution Phase
+- **Topic**: Remote Execution & Storage Mounting Instructions
+- **Attempted**: Formulated step-by-step procedure for user to upload files via `scp`, SSH into `c6gd.medium`, format/mount Ephemeral NVMe (`/mnt/eph`), install boto3, and trigger `benchmark_runner.py`.
+- **Hypothesis**: Following the streamlined single-command SCP and single automated runner execution minimizes user error, runs all tests sequentially in single-trial mode, and outputs structured `benchmark_results.json`.
+- **Observed Result**: Prepared and presented Phase 2 instructions to user.
