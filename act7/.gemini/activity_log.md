@@ -130,3 +130,9 @@
 - **Attempted**: Evaluated user proposal of running the maximum iteration (e.g. 4096) and recording checkpoints for intermediate values (512, 1024, 2048).
 - **Hypothesis**: While mathematically intuitive, cumulative checkpointing violates the experimental isolation mandate explicitly highlighted on Page 1 of the lab instructions ("delete your old files before running a new round or performance will not be the same"). Running cumulatively causes OS page cache saturation, filesystem directory index bloat, and burst token depletion, which skews Linearity testing (Question 2). Additionally, grading requires submitting standalone `test_fs.py` and `test_s3.py` matching the CLI specification.
 - **Observed Result**: Documented technical explanation advising against cumulative runs to preserve scientific validity and ensure full marks.
+
+## [2026-09-29 16:14] Theoretical Performance Pattern Analysis (Addressing Common Misconceptions)
+- **Topic**: Expected Storage Benchmark Behavior & Architectural Rationale
+- **Attempted**: Evaluated user hypothesis that splitting data into smaller files yields lower time and higher bandwidth.
+- **Hypothesis**: In storage systems, smaller files yield dramatically LOWER bandwidth (throughput) due to per-file metadata overhead (inode allocation, journaling) and network request overhead (HTTP/REST headers, TLS, RTT). Larger files maximize sequential DMA streaming, yielding significantly HIGHER bandwidth. Comparatively: Ephemeral NVMe (PCIe direct bus) > EBS gp3 (network block storage, 3000 IOPS cap) > S3 (HTTP REST API with per-request latency).
+- **Observed Result**: Structured clear explanation directly answering Questions 1, 3, and 4 in advance.
