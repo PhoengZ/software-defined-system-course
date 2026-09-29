@@ -8,3 +8,9 @@
   - Drafted comprehensive First Plan (Initialize Plan) detailing Manual vs Code steps, AWS credentials configuration (`C:\Users\USER\.aws\credentials`), local venv setup with `requirements.txt` (`boto3`), and benchmark code structure.
 - **Hypothesis**: The activity requires testing storage throughput across EBS, Ephemeral NVMe, and S3 using EC2 `c6gd.medium` (ARM64) and Python (`test_fs.py`, `test_s3.py`). S3 credentials can be configured locally at `C:\Users\USER\.aws\credentials` for local testing/scripting, and least-privilege IAM policy is needed.
 - **Observed Result**: User cannot yet access the Google Spreadsheet link. First Plan created; awaiting user confirmation and spreadsheet attachment before proceeding to Second Plan.
+
+## [2026-09-29 13:58] Configured .gitignore to Ignore .txt Data Files
+- **Topic**: Repository Hygiene & Preventing Commitment of Benchmark Data Files
+- **Attempted**: Created `act7/.gitignore` to ignore `*.txt`, `*.dat`, `*.bin`, `.venv/`, credentials, and temporary benchmark outputs.
+- **Hypothesis**: Adding `*.txt` to `act7/.gitignore` prevents large data files (`random_large...txt`, `1MiB...txt`, etc.) from being accidentally tracked or committed to Git.
+- **Observed Result**: `git status` confirmed that all `.txt` data files are now ignored and only `.gitignore` is tracked as untracked file.

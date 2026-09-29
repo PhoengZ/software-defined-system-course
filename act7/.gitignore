@@ -1,0 +1,35 @@
+# Data files and benchmark test files
+*.txt
+*.dat
+*.bin
+
+# Python virtual environment
+.venv/
+venv/
+ENV/
+env/
+
+# Python cache and bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+
+# AWS credentials and secrets
+.aws/
+credentials
+*.pem
+*.key
+
+# Output & temporary benchmark results
+ebs_test/
+eph_test/
+s3_test/
+output/
+tmp/
+*.log
+
+# OS metadata
+.DS_Store
+Thumbs.db
