@@ -85,3 +85,11 @@
 - **Attempted**: Investigated user report stating that `c6gd.medium` is not covered by the free tier/plan.
 - **Hypothesis**: The AWS Console displays an informational badge indicating non-eligibility for the AWS 12-month Free Tier (which only covers `t2.micro`/`t3.micro`). In course/lab accounts, `c6gd.medium` is specifically mandated by the professor for Ephemeral NVMe access and is paid via course lab credits (~$0.0384/hr). If it is purely a UI warning, user can proceed to launch; if it is a hard quota error upon clicking Launch, subnet/AZ adjustment or quota check is needed.
 - **Observed Result**: Clarified the distinction between the Free Tier warning and a launch-blocking error.
+
+## [2026-09-29 15:29] Troubleshooting Grayed-out c6gd.medium (Architecture & Filter Check)
+- **Topic**: EC2 Instance Selector Incompatibility Diagnosis
+- **Attempted**: Investigated why `c6gd.medium` is grayed out in the selection dropdown.
+- **Hypothesis**:
+  1. Primary cause: AMI Architecture is set to default `64-bit (x86)` instead of `64-bit (Arm)`. Since `c6gd` runs on ARM Graviton2, AWS Console grays out all Arm instances when x86 is selected (as warned in `Act_2_setup_guide` page 2).
+  2. Secondary cause: A filter such as "Free tier eligible" is enabled in the instance type dropdown, or the user's account has a strict course plan restriction.
+- **Observed Result**: Provided clear visual steps for changing AMI architecture to 64-bit (Arm) and clearing instance type filters.
