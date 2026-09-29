@@ -26,3 +26,16 @@
 - **Attempted**: Updated `FIRST_PLAN.md` and `initial_implementation_plan.md` to establish Method 2 (IAM Role for EC2 Instance Profile with least-privilege S3 Policy) as the primary credential mechanism, directly fulfilling the lab requirement ("set up your credentials using roles") and Question 6.
 - **Hypothesis**: Adopting IAM Role eliminates hardcoded/stored long-term credentials on EC2, utilizes IMDS for temporary security tokens, and adheres to AWS Best Practice.
 - **Observed Result**: Plan successfully refactored and aligned with user instruction and assignment specification.
+
+## [2026-09-29 14:42] Analysis of 2110415 Storage Benchmark Template.xlsx & Second Plan Architecture
+- **Topic**: Spreadsheet Parameter Extraction, Metrics Formulation & Teardown Architecture
+- **Attempted**: 
+  - Extracted exact experiment matrix from `2110415 Storage Benchmark Template.xlsx`:
+    - 2 KiB: EBS/Ephemeral (N = 32768, 65536, 131072, 262144, 393216); S3 (N = 512, 1024, 2048, 4096, 6144)
+    - 256 KiB: EBS/Ephemeral/S3 (N = 512, 1024, 2048, 4096, 6144)
+    - 1 MiB: EBS/Ephemeral/S3 (N = 128, 256, 512, 1024, 1536)
+    - 128 MiB: EBS/Ephemeral/S3 (N = 1, 2, 4, 8, 12)
+  - Formulated explicit mathematical derivations for all table columns: Total write time ($t_1 - t_0$), Write time per file ($\frac{\text{Total Time}}{N}$), and Bandwidth ($\frac{\text{Total Data}}{\text{Total Time}}$).
+  - Designed resource lifecycle and safe teardown protocol (EC2 instance, EBS root volume, S3 objects/bucket, IAM role/policy, Security Groups, Key Pairs) guaranteeing $0 ongoing AWS expenditure after data capture.
+- **Hypothesis**: Having the exact matrix from the spreadsheet enables precise automation scripting and accurate data export back to Excel. AWS resources can be safely and completely dismantled once spreadsheet cells are filled, leaving graph plotting and analysis to run offline.
+- **Observed Result**: Spreadsheet parameters successfully mapped. Ready to present Implementation Plan and deliver Second Plan upon user verification.
