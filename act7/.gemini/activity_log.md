@@ -47,3 +47,9 @@
   - Aligned rationale: Reduces total S3 API calls (PutObject requests cost $0.005 per 1,000 requests) and EC2 runtime, cutting AWS expenditure to the absolute minimum while strictly fulfilling all cells in `2110415 Storage Benchmark Template.xlsx`.
 - **Hypothesis**: A single carefully executed run per configuration provides empirical data directly usable for `Total write time`, `Write time per file`, and `Bandwidth (MB/s)` without redundant cost.
 - **Observed Result**: Constraint integrated into `SECOND_PLAN.md` and automation scripts.
+
+## [2026-09-29 14:55] Analysis of Required Metrics for Answering Activity 7 Questions
+- **Topic**: Data Scope Validation (Spreadsheet Metrics vs System Metrics / CPU Usage)
+- **Attempted**: Analyzed `Activity7_2026-172259-17905645498670.pdf` questions 1-7 against system monitoring requirements.
+- **Hypothesis**: The benchmark is entirely I/O bound. Only spreadsheet metrics (`Total write time`, `Write time per file`, `Bandwidth`, file sizes, and iterations $N$) plus IAM policy JSON and architectural theory are required to answer all 7 questions. CPU usage is irrelevant and not required. EC2 CloudWatch EBS monitoring is mentioned only as optional additional insight.
+- **Observed Result**: Clarified metric scope to user: CPU usage is not needed; empirical spreadsheet data is fully sufficient.
