@@ -114,3 +114,13 @@
 - **Attempted**: Formulated step-by-step procedure for user to upload files via `scp`, SSH into `c6gd.medium`, format/mount Ephemeral NVMe (`/mnt/eph`), install boto3, and trigger `benchmark_runner.py`.
 - **Hypothesis**: Following the streamlined single-command SCP and single automated runner execution minimizes user error, runs all tests sequentially in single-trial mode, and outputs structured `benchmark_results.json`.
 - **Observed Result**: Prepared and presented Phase 2 instructions to user.
+
+## [2026-09-29 15:57] Codebase Iteration Matrix Verification
+- **Topic**: Benchmark Iteration Matrix Audit
+- **Attempted**: Inspected `benchmark_runner.py` and `sync_to_excel.py` against user-provided spreadsheet table.
+- **Hypothesis**: The configured iteration numbers must match the spreadsheet template exactly for all 4 file sizes:
+  - 2 KiB: EBS/Ephemeral [32768, 65536, 131072, 262144, 393216], S3 [512, 1024, 2048, 4096, 6144]
+  - 256 KiB: EBS/Ephemeral/S3 [512, 1024, 2048, 4096, 6144]
+  - 1 MiB: EBS/Ephemeral/S3 [128, 256, 512, 1024, 1536]
+  - 128 MiB: EBS/Ephemeral/S3 [1, 2, 4, 8, 12]
+- **Observed Result**: 100% verified. Every single value in code matches the spreadsheet matrix precisely. Local dry-run of `test_fs.py` executed successfully.
