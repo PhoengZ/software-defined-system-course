@@ -1,6 +1,6 @@
 # รายงานการวิเคราะห์และคำตอบ 7 ข้อ (Activity 7: Storage System Performance)
 
-**ชื่อ-นามสกุล**: [ระบุชื่อ-นามสกุลของท่าน]  
+**ชื่อ-นามสกุล**: Phaolap Kulteera  
 **รหัสนิสิต**: 6630199021  
 **รายวิชา**: 2110415 Software-Defined Systems  
 
@@ -25,9 +25,22 @@
 > **โจทย์**: First, understand how each storage system performs with respect to file size. Does the throughput for EBS, Ephemeral storage and S3 vary with file size? Why or why not? Include the graph of your results. Hint: Normalize all experiments with Total Bytes Written so they are easy to compare.
 
 #### คำตอบและบทวิเคราะห์:
-**ใช่ Throughput (Bandwidth ในหน่วย MB/s) แปรผันตามขนาดไฟล์ (File Size) อย่างมีนัยสำคัญมากในทุกระบบ Storage** โดยยิ่งขนาดไฟล์ใหญ่ขึ้น Throughput ที่ได้จะยิ่งสูงขึ้นอย่างเห็นได้ชัด:
+**ใช่ Throughput (Bandwidth ในหน่วย MB/s) แปรผันตามขนาดไฟล์ (File Size) อย่างมีนัยสำคัญมากในทุกระบบ Storage** โดยยิ่งขนาดไฟล์ใหญ่ขึ้น Throughput ที่ได้จะยิ่งสูงขึ้นอย่างเห็นได้ชัด
 
-![Graph 1: Storage Throughput vs. File Size](graph1_file_size_vs_throughput.png)
+ตามคำแนะนำของโจทย์ (*Hint: Normalize all experiments with Total Bytes Written so they are easy to compare*):
+$$\text{Total Bytes Written} = \text{File Size (Bytes)} \times \text{Number of Iterations } (N)$$
+จะเห็นได้ว่าตารางการทดลองถูกออกแบบให้ขนาด 256 KiB, 1 MiB และ 128 MiB มีจุดทดสอบที่ **Total Bytes Written เท่ากันทุกประการ** ได้แก่ 128 MiB, 256 MiB, 512 MiB, 1 GiB (1024 MiB) และ 1.5 GiB (1536 MiB) ทำให้สามารถพลอตกราฟเปรียบเทียบในลักษณะเดียวกับกราฟตัวอย่างของอาจารย์ (Activity 7 PDF หน้า 2):
+
+##### 1. กราฟ Total Bytes Written vs Throughput สำหรับแต่ละระบบจัดเก็บข้อมูล (ตรงตาม Format ของโจทย์)
+* **AWS EBS (gp3)**:
+  ![EBS Throughput vs Total Bytes Written](graph1_ebs_total_bytes_vs_throughput.png)
+* **EC2 Ephemeral Storage (NVMe)**:
+  ![Ephemeral Throughput vs Total Bytes Written](graph1_ephemeral_total_bytes_vs_throughput.png)
+* **Amazon S3**:
+  ![S3 Throughput vs Total Bytes Written](graph1_s3_total_bytes_vs_throughput.png)
+
+##### 2. กราฟเปรียบเทียบทั้ง 3 Storage Tiers ที่ Normalized Payload เท่ากัน (ที่ 1 GiB Total Bytes Written)
+![Graph 1: Storage Throughput vs. File Size (Normalized at 1 GiB)](graph1_file_size_vs_throughput.png)
 
 #### ข้อมูลเชิงประจักษ์จากการทดลองจริง:
 * **ไฟล์ขนาด 2 KiB (เล็กที่สุด)**:

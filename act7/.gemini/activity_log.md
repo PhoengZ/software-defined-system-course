@@ -157,3 +157,11 @@
   - Authored `REPORT_SOLUTION.md` providing in-depth architectural and empirical answers to all 7 assignment questions, including least-privilege IAM policy JSON and multi-threaded S3 optimization code.
 - **Hypothesis**: The generated charts and comprehensive answers completely satisfy the submission requirements outlined in `Activity7_...pdf`.
 - **Observed Result**: All files generated, committed, and ready for student submission.
+
+## [2026-09-29 17:01] Total Bytes Written Normalization Audit & Graph Enhancement
+- **Topic**: Graph 1 Normalization Analysis (Total Bytes Written = File Size × Iterations)
+- **Attempted**: Evaluated user question regarding whether Graph 1 requires normalization by Total Bytes Written ($\text{File Size} \times \text{iteration}$) to match the professor's sample graph on Page 2 of `Activity7_...pdf`.
+- **Hypothesis**:
+  1. The user's calculation ($\text{File Size} \times N$) is 100% correct. The professor intentionally designed the iterations for 256 KiB, 1 MiB, and 128 MiB to yield identical cumulative payloads: 128 MiB, 256 MiB, 512 MiB, 1 GiB (1024 MiB), and 1.5 GiB (1536 MiB).
+  2. Plotting Throughput (MB/s) against Total Bytes Written with separate lines for each file size replicates the exact visualization template provided by the instructor.
+- **Observed Result**: Generated `graph1_ebs_total_bytes_vs_throughput.png`, `graph1_ephemeral_total_bytes_vs_throughput.png`, and `graph1_s3_total_bytes_vs_throughput.png`, alongside the normalized 1 GiB comparison `graph1_file_size_vs_throughput.png`. Updated `REPORT_SOLUTION.md` with direct embeddings and complete mathematical justification.
