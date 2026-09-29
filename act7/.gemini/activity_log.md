@@ -53,3 +53,11 @@
 - **Attempted**: Analyzed `Activity7_2026-172259-17905645498670.pdf` questions 1-7 against system monitoring requirements.
 - **Hypothesis**: The benchmark is entirely I/O bound. Only spreadsheet metrics (`Total write time`, `Write time per file`, `Bandwidth`, file sizes, and iterations $N$) plus IAM policy JSON and architectural theory are required to answer all 7 questions. CPU usage is irrelevant and not required. EC2 CloudWatch EBS monitoring is mentioned only as optional additional insight.
 - **Observed Result**: Clarified metric scope to user: CPU usage is not needed; empirical spreadsheet data is fully sufficient.
+
+## [2026-09-29 14:58] Architecture Breakdown of Python Scripts & Instance Deployment Strategies
+- **Topic**: Script Roles and File Transfer Methodology
+- **Attempted**: 
+  - Defined explicit roles for `test_fs.py`, `test_s3.py`, `benchmark_runner.py`, and `sync_to_excel.py`.
+  - Analyzed file deployment options: Compared manual copy-pasting via `vim` against secure copy (`scp`) and VS Code Remote SSH.
+- **Hypothesis**: While code could technically be pasted into `vim`, `scp` is vastly superior and required anyway because the 4 test data files (especially 128 MiB binary file) cannot be copy-pasted via terminal clipboard without truncation or corruption.
+- **Observed Result**: Documented clear workflow recommending `scp` single-command transfer alongside vim instructions if preferred.
