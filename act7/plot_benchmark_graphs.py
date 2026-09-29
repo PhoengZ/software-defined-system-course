@@ -40,14 +40,13 @@ def run_plotting():
     ebs_1mib = [data["1 MiB"]["ebs"][str(n)]["bandwidth_mb_s"] for n in [128, 256, 512, 1024, 1536]]
     # 256 KiB line
     ebs_256kib = [data["256 KiB"]["ebs"][str(n)]["bandwidth_mb_s"] for n in [512, 1024, 2048, 4096, 6144]]
-    # 2 KiB line (align at 128, 256, 512 MiB)
-    ebs_2kib_x = ["128 MiB", "256 MiB", "512 MiB"]
-    ebs_2kib_y = [data["2 KiB"]["ebs"][str(n)]["bandwidth_mb_s"] for n in [65536, 131072, 262144]]
+    # 2 KiB line (all 5 test points matching professor's 5-row spreadsheet template)
+    ebs_2kib = [data["2 KiB"]["ebs"][str(n)]["bandwidth_mb_s"] for n in [32768, 65536, 131072, 262144, 393216]]
 
     plt.plot(common_x_labels, ebs_256kib, marker="o", linewidth=2.5, label="EBS 256KiB", color="#e74c3c")
     plt.plot(common_x_labels, ebs_1mib, marker="s", linewidth=2.5, label="EBS 1MiB", color="#f39c12")
     plt.plot(common_x_labels, ebs_128mib, marker="^", linewidth=2.5, label="EBS 128MiB", color="#27ae60")
-    plt.plot(ebs_2kib_x, ebs_2kib_y, marker="D", linewidth=2.5, label="EBS 2KiB", color="#2980b9")
+    plt.plot(common_x_labels, ebs_2kib, marker="D", linewidth=2.5, label="EBS 2KiB", color="#2980b9")
 
     plt.title("Total Bytes Written vs Throughput (AWS EBS)", fontsize=14, fontweight="bold", pad=15)
     plt.xlabel("Total Bytes Written", fontweight="bold")
@@ -65,13 +64,12 @@ def run_plotting():
     eph_128mib = [data["128 MiB"]["ephemeral"][str(n)]["bandwidth_mb_s"] for n in [1, 2, 4, 8, 12]]
     eph_1mib = [data["1 MiB"]["ephemeral"][str(n)]["bandwidth_mb_s"] for n in [128, 256, 512, 1024, 1536]]
     eph_256kib = [data["256 KiB"]["ephemeral"][str(n)]["bandwidth_mb_s"] for n in [512, 1024, 2048, 4096, 6144]]
-    eph_2kib_x = ["128 MiB", "256 MiB", "512 MiB"]
-    eph_2kib_y = [data["2 KiB"]["ephemeral"][str(n)]["bandwidth_mb_s"] for n in [65536, 131072, 262144]]
+    eph_2kib = [data["2 KiB"]["ephemeral"][str(n)]["bandwidth_mb_s"] for n in [32768, 65536, 131072, 262144, 393216]]
 
     plt.plot(common_x_labels, eph_256kib, marker="o", linewidth=2.5, label="Ephemeral 256KiB", color="#e74c3c")
     plt.plot(common_x_labels, eph_1mib, marker="s", linewidth=2.5, label="Ephemeral 1MiB", color="#f39c12")
     plt.plot(common_x_labels, eph_128mib, marker="^", linewidth=2.5, label="Ephemeral 128MiB", color="#27ae60")
-    plt.plot(eph_2kib_x, eph_2kib_y, marker="D", linewidth=2.5, label="Ephemeral 2KiB", color="#2980b9")
+    plt.plot(common_x_labels, eph_2kib, marker="D", linewidth=2.5, label="Ephemeral 2KiB", color="#2980b9")
 
     plt.title("Total Bytes Written vs Throughput (Ephemeral Storage NVMe)", fontsize=14, fontweight="bold", pad=15)
     plt.xlabel("Total Bytes Written", fontweight="bold")
@@ -89,10 +87,24 @@ def run_plotting():
     s3_128mib = [data["128 MiB"]["s3"][str(n)]["bandwidth_mb_s"] for n in [1, 2, 4, 8, 12]]
     s3_1mib = [data["1 MiB"]["s3"][str(n)]["bandwidth_mb_s"] for n in [128, 256, 512, 1024, 1536]]
     s3_256kib = [data["256 KiB"]["s3"][str(n)]["bandwidth_mb_s"] for n in [512, 1024, 2048, 4096, 6144]]
+    s3_2kib = [data["2 KiB"]["s3"][str(n)]["bandwidth_mb_s"] for n in [512, 1024, 2048, 4096, 6144]]
 
     plt.plot(common_x_labels, s3_256kib, marker="o", linewidth=2.5, label="S3 256KiB", color="#e74c3c")
     plt.plot(common_x_labels, s3_1mib, marker="s", linewidth=2.5, label="S3 1MiB", color="#f39c12")
     plt.plot(common_x_labels, s3_128mib, marker="^", linewidth=2.5, label="S3 128MiB", color="#27ae60")
+    plt.plot(common_x_labels, s3_2kib, marker="D", linewidth=2.5, label="S3 2KiB (~0.07 MB/s)", color="#2980b9")
+
+    # Add text annotation for S3 2KiB so its precise value is readable despite large scale
+    plt.annotate(
+        f"S3 2KiB: {s3_2kib[1]:.2f} MB/s",
+        xy=(1, s3_2kib[1]),
+        xytext=(1, 4.0),
+        arrowprops=dict(facecolor="#2980b9", shrink=0.15, width=1.5, headwidth=6),
+        ha="center",
+        fontweight="bold",
+        color="#2980b9",
+        fontsize=10
+    )
 
     plt.title("Total Bytes Written vs Throughput (Amazon S3)", fontsize=14, fontweight="bold", pad=15)
     plt.xlabel("Total Bytes Written", fontweight="bold")
@@ -104,21 +116,24 @@ def run_plotting():
     print("[+] Saved 'graph1_s3_total_bytes_vs_throughput.png'")
 
     # =========================================================================
-    # GRAPH 1D: Combined 3-in-1 Comparison at 1 GiB Total Bytes Written
+    # GRAPH 1D: Combined 3-in-1 Comparison across all 4 File Sizes
     # =========================================================================
-    plt.figure(figsize=(10, 6), dpi=300)
-    sizes = ["256 KiB", "1 MiB", "128 MiB"]
-    ebs_1gib = [
+    plt.figure(figsize=(11, 6), dpi=300)
+    sizes = ["2 KiB", "256 KiB", "1 MiB", "128 MiB"]
+    ebs_comp = [
+        data["2 KiB"]["ebs"]["393216"]["bandwidth_mb_s"],
         data["256 KiB"]["ebs"]["4096"]["bandwidth_mb_s"],
         data["1 MiB"]["ebs"]["1024"]["bandwidth_mb_s"],
         data["128 MiB"]["ebs"]["8"]["bandwidth_mb_s"]
     ]
-    eph_1gib = [
+    eph_comp = [
+        data["2 KiB"]["ephemeral"]["393216"]["bandwidth_mb_s"],
         data["256 KiB"]["ephemeral"]["4096"]["bandwidth_mb_s"],
         data["1 MiB"]["ephemeral"]["1024"]["bandwidth_mb_s"],
         data["128 MiB"]["ephemeral"]["8"]["bandwidth_mb_s"]
     ]
-    s3_1gib = [
+    s3_comp = [
+        data["2 KiB"]["s3"]["6144"]["bandwidth_mb_s"],
         data["256 KiB"]["s3"]["4096"]["bandwidth_mb_s"],
         data["1 MiB"]["s3"]["1024"]["bandwidth_mb_s"],
         data["128 MiB"]["s3"]["8"]["bandwidth_mb_s"]
@@ -126,19 +141,19 @@ def run_plotting():
 
     x = np.arange(len(sizes))
     w = 0.25
-    plt.bar(x - w, ebs_1gib, width=w, label="EBS", color="#2b5c8f")
-    plt.bar(x, eph_1gib, width=w, label="Ephemeral", color="#e07a5f")
-    plt.bar(x + w, s3_1gib, width=w, label="S3", color="#81b29a")
+    plt.bar(x - w, ebs_comp, width=w, label="EBS", color="#2b5c8f")
+    plt.bar(x, eph_comp, width=w, label="Ephemeral", color="#e07a5f")
+    plt.bar(x + w, s3_comp, width=w, label="S3", color="#81b29a")
 
     for i in range(len(sizes)):
-        plt.text(i - w, ebs_1gib[i] + 3, f"{ebs_1gib[i]:.1f}", ha="center", fontsize=9)
-        plt.text(i, eph_1gib[i] + 3, f"{eph_1gib[i]:.1f}", ha="center", fontsize=9)
-        plt.text(i + w, s3_1gib[i] + 3, f"{s3_1gib[i]:.1f}", ha="center", fontsize=9)
+        plt.text(i - w, ebs_comp[i] + 3, f"{ebs_comp[i]:.1f}", ha="center", fontsize=9, fontweight="bold")
+        plt.text(i, eph_comp[i] + 3, f"{eph_comp[i]:.1f}", ha="center", fontsize=9, fontweight="bold")
+        plt.text(i + w, s3_comp[i] + 3, f"{s3_comp[i]:.2f}", ha="center", fontsize=9, fontweight="bold")
 
     plt.xticks(x, sizes, fontweight="bold")
-    plt.xlabel("File Size (Normalized at Total Bytes Written = 1 GiB)", fontweight="bold")
+    plt.xlabel("File Size (2KiB, 256KiB, 1MiB, 128MiB)", fontweight="bold")
     plt.ylabel("Throughput (MB/s)", fontweight="bold")
-    plt.title("Graph 1: Normalized Storage Throughput vs. File Size (at 1 GiB Total Bytes)", fontsize=14, fontweight="bold", pad=15)
+    plt.title("Graph 1: Normalized Storage Throughput vs. File Size (All Storage Types)", fontsize=14, fontweight="bold", pad=15)
     plt.legend(frameon=True)
     plt.grid(True, linestyle="--", alpha=0.5, axis="y")
     plt.savefig("graph1_file_size_vs_throughput.png")

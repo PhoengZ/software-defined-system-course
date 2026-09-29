@@ -29,18 +29,18 @@
 
 ตามคำแนะนำของโจทย์ (*Hint: Normalize all experiments with Total Bytes Written so they are easy to compare*):
 $$\text{Total Bytes Written} = \text{File Size (Bytes)} \times \text{Number of Iterations } (N)$$
-จะเห็นได้ว่าตารางการทดลองถูกออกแบบให้ขนาด 256 KiB, 1 MiB และ 128 MiB มีจุดทดสอบที่ **Total Bytes Written เท่ากันทุกประการ** ได้แก่ 128 MiB, 256 MiB, 512 MiB, 1 GiB (1024 MiB) และ 1.5 GiB (1536 MiB) ทำให้สามารถพลอตกราฟเปรียบเทียบในลักษณะเดียวกับกราฟตัวอย่างของอาจารย์ (Activity 7 PDF หน้า 2):
+จะเห็นได้ว่าตารางการทดลองถูกออกแบบให้ขนาด 256 KiB, 1 MiB และ 128 MiB มีจุดทดสอบที่ **Total Bytes Written เท่ากันทุกประการ** ได้แก่ 128 MiB, 256 MiB, 512 MiB, 1 GiB (1024 MiB) และ 1.5 GiB (1536 MiB) ในขณะที่ขนาด 2 KiB ถูกทดสอบครอบคลุมทั้ง 5 ลำดับการทดลอง ทำให้สามารถพลอตกราฟเปรียบเทียบครบทุกขนาดไฟล์ (2 KiB, 256 KiB, 1 MiB, 128 MiB) ได้อย่างสมบูรณ์:
 
-##### 1. กราฟ Total Bytes Written vs Throughput สำหรับแต่ละระบบจัดเก็บข้อมูล (ตรงตาม Format ของโจทย์)
-* **AWS EBS (gp3)**:
+##### 1. กราฟ Total Bytes Written vs Throughput สำหรับแต่ละระบบจัดเก็บข้อมูล (ตรงตาม Format ของอาจารย์ใน PDF หน้า 2)
+* **AWS EBS (gp3)**: มีครบทั้ง 4 ขนาดไฟล์ (2 KiB, 256 KiB, 1 MiB, 128 MiB)
   ![EBS Throughput vs Total Bytes Written](graph1_ebs_total_bytes_vs_throughput.png)
-* **EC2 Ephemeral Storage (NVMe)**:
+* **EC2 Ephemeral Storage (NVMe)**: มีครบทั้ง 4 ขนาดไฟล์
   ![Ephemeral Throughput vs Total Bytes Written](graph1_ephemeral_total_bytes_vs_throughput.png)
-* **Amazon S3**:
+* **Amazon S3**: มีครบทั้ง 4 ขนาดไฟล์ (รวม S3 2KiB ซึ่ง Throughput อยู่ที่ ~0.07 MB/s)
   ![S3 Throughput vs Total Bytes Written](graph1_s3_total_bytes_vs_throughput.png)
 
-##### 2. กราฟเปรียบเทียบทั้ง 3 Storage Tiers ที่ Normalized Payload เท่ากัน (ที่ 1 GiB Total Bytes Written)
-![Graph 1: Storage Throughput vs. File Size (Normalized at 1 GiB)](graph1_file_size_vs_throughput.png)
+##### 2. กราฟเปรียบเทียบทั้ง 3 Storage Tiers ครบทั้ง 4 ขนาดไฟล์ (Normalized Throughput Comparison)
+![Graph 1: Storage Throughput vs. File Size (All 4 Sizes)](graph1_file_size_vs_throughput.png)
 
 #### ข้อมูลเชิงประจักษ์จากการทดลองจริง:
 * **ไฟล์ขนาด 2 KiB (เล็กที่สุด)**:

@@ -165,3 +165,9 @@
   1. The user's calculation ($\text{File Size} \times N$) is 100% correct. The professor intentionally designed the iterations for 256 KiB, 1 MiB, and 128 MiB to yield identical cumulative payloads: 128 MiB, 256 MiB, 512 MiB, 1 GiB (1024 MiB), and 1.5 GiB (1536 MiB).
   2. Plotting Throughput (MB/s) against Total Bytes Written with separate lines for each file size replicates the exact visualization template provided by the instructor.
 - **Observed Result**: Generated `graph1_ebs_total_bytes_vs_throughput.png`, `graph1_ephemeral_total_bytes_vs_throughput.png`, and `graph1_s3_total_bytes_vs_throughput.png`, alongside the normalized 1 GiB comparison `graph1_file_size_vs_throughput.png`. Updated `REPORT_SOLUTION.md` with direct embeddings and complete mathematical justification.
+
+## [2026-09-29 17:46] Full 4-Size Inclusion Audit (S3 2KiB Integration)
+- **Topic**: Integration of Missing S3 2KiB into Benchmark Graphs
+- **Attempted**: Addressed user audit identifying that `S3 2KiB` was absent from `graph1_s3_total_bytes_vs_throughput.png` and `graph1_file_size_vs_throughput.png`.
+- **Hypothesis**: S3 2KiB was previously omitted because its total bytes (1–12 MiB across 512–6144 iterations) did not align with the 128 MiB–1.5 GiB categories. By plotting all 5 rows directly matching the spreadsheet template format (just as the instructor did for EBS 2KiB in `pdf_page2_img_0.png`) and annotating the exact 0.07 MB/s value, the graph becomes 100% complete across all 4 file sizes. Furthermore, incorporating 2 KiB into `graph1_file_size_vs_throughput.png` provides a full 4-size comparison across all storage tiers.
+- **Observed Result**: Successfully regenerated all charts with S3 2KiB included. Updated `REPORT_SOLUTION.md` with clean markdown rendering and verified artifact legibility.
