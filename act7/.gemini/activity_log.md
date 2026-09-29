@@ -93,3 +93,9 @@
   1. Primary cause: AMI Architecture is set to default `64-bit (x86)` instead of `64-bit (Arm)`. Since `c6gd` runs on ARM Graviton2, AWS Console grays out all Arm instances when x86 is selected (as warned in `Act_2_setup_guide` page 2).
   2. Secondary cause: A filter such as "Free tier eligible" is enabled in the instance type dropdown, or the user's account has a strict course plan restriction.
 - **Observed Result**: Provided clear visual steps for changing AMI architecture to 64-bit (Arm) and clearing instance type filters.
+
+## [2026-09-29 15:33] Instance Unlocked & Billing Credit Priority Confirmation
+- **Topic**: AWS Promotional/Lab Credit Deduction Mechanism
+- **Attempted**: Confirmed to user that `c6gd.medium` is unlocked and clarified AWS credit consumption order.
+- **Hypothesis**: AWS billing systems strictly deduct from promotional/lab credits first before billing any credit card or external payment method. Running `c6gd.medium` (~$0.0384/hr) for the duration of this single-trial benchmark will consume only a negligible amount of credits.
+- **Observed Result**: Reassured user and prepared to guide through SSH, NVMe mounting, and benchmark execution.
