@@ -40,3 +40,9 @@
   4. Updated Slide 4 layout guidance showing side-by-side Before/After presentation format.
 - **Hypothesis being tested:** Visualizing both architectures side-by-side demonstrates clear contrast and allows seamless transfer into Slide 4 and Slide 5.
 - **The observed result/outcome:** Successfully updated `slide_4_5_www_chula.md` with both Mermaid diagrams and comparative analysis.
+## [2026-10-06 20:25:00 +07:00] - Implementation Plan for Compact Mermaid Architecture Diagrams
+
+- **Topic:** Optimizing Mermaid diagram layout in `slide_4_5_www_chula.md` to be compact and screenshot-friendly within 1 page.
+- **What was attempted:** Formulated an implementation plan to re-engineer both Old and New architecture diagrams by switching from sprawling vertical `flowchart TD` to horizontal `flowchart LR` / compact side-by-side layout, shortening node text, and providing a unified single-diagram comparison option that can be captured in a single 16:9 screenshot.
+- **Hypothesis being tested:** A streamlined horizontal layout with concise labels and side-by-side comparison will drastically reduce diagram height and fit perfectly within a single slide or capture window.
+- **The observed result/outcome:** Implementation plan drafted. Presenting to user for verification gate.
