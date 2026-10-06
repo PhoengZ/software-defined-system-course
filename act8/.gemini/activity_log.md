@@ -12,3 +12,9 @@
 - **What was attempted:** Ran DNS inspection and HTTP header probing on `www.chula.ac.th` to identify technology stack (revealed WordPress CMS with Imperva WAF/CDN frontend) and deduced the baseline on-premise architecture and appropriate final cloud architecture (Multi-Cloud / Hybrid Cloud).
 - **Hypothesis being tested:** www.chula.ac.th can be mapped to a standard Read-heavy Content-driven Web Portal architecture without requiring access to internal source code or internal server configs.
 - **The observed result/outcome:** HTTP response confirmed `wp-json` (WordPress CMS) and Imperva CDN. The on-premise baseline is an on-premise LAMP/LEMP stack in Chula's data center. The optimal final architecture is Multi-Cloud (stateless containerized WordPress + Multi-CDN + S3/GCS Object Storage + Managed Relational DB), which is straightforward compared to Reg Chula's transactional ACID requirements.
+## [2026-10-06 20:06:00 +07:00] - Implementation Plan Formulation for www.chula.ac.th Slide 4-5 Documentation
+
+- **Topic:** Structuring the Markdown documentation and Mermaid architecture diagram for Slide 4-5 (www.chula.ac.th).
+- **What was attempted:** Formulated a comprehensive implementation plan to generate `slide_4_5_www_chula.md` containing the Mermaid architecture diagram and in-depth technical descriptions for the 3 required slide points (Final Architecture Design, Pros & Cons, and Remaining Shortcomings vs On-Premise).
+- **Hypothesis being tested:** Structuring the content with ready-to-copy bullet points and a clean Mermaid diagram will allow direct transfer into presentation slides while adhering strictly to course requirements and verification gates.
+- **The observed result/outcome:** Implementation plan drafted covering all 4 architectural layers (Edge/CDN, Compute, Database, Storage) and 3 assignment questions. Presenting plan to user for verification gate.
