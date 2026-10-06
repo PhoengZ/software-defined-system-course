@@ -30,3 +30,13 @@
 - **What was attempted:** Formulated an implementation plan to enhance `slide_4_5_www_chula.md` by adding a dedicated On-Premise baseline Mermaid diagram alongside the Multi-Cloud diagram, with explicit layer-by-layer visual callouts highlighting bottlenecks (SPOF, bandwidth constraints, stateful coupling) versus cloud architectural benefits (edge caching, stateless auto-scaling, decoupled object storage).
 - **Hypothesis being tested:** Visualizing both old and new architectures side-by-side will clearly demonstrate the structural contrast required for Slide 4-5.
 - **The observed result/outcome:** Implementation plan created. Presenting to user for verification gate prior to updating `slide_4_5_www_chula.md`.
+## [2026-10-06 20:21:00 +07:00] - Updated slide_4_5_www_chula.md with Old vs New Mermaid Diagrams
+
+- **Topic:** Integration of dual architecture diagrams (Old On-Premise vs New Multi-Cloud) in `slide_4_5_www_chula.md`.
+- **What was attempted:** Updated `slide_4_5_www_chula.md` to include:
+  1. Mermaid diagram for Old On-Premise Monolithic architecture highlighting single points of failure, network bottlenecks, and coupled disk storage.
+  2. Mermaid diagram for New Multi-Cloud architecture with Anycast DNS, Multi-CDN, stateless containers, decoupled object storage, and cross-cloud database DR replication.
+  3. Layer-by-layer architectural transformation table.
+  4. Updated Slide 4 layout guidance showing side-by-side Before/After presentation format.
+- **Hypothesis being tested:** Visualizing both architectures side-by-side demonstrates clear contrast and allows seamless transfer into Slide 4 and Slide 5.
+- **The observed result/outcome:** Successfully updated `slide_4_5_www_chula.md` with both Mermaid diagrams and comparative analysis.
