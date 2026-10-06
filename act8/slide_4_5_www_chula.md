@@ -4,122 +4,85 @@
 
 ---
 
-## 1. เปรียบเทียบแผนภาพสถาปัตยกรรม (Architecture Diagrams)
+## 1. เปรียบเทียบแผนภาพสถาปัตยกรรม (Compact Architecture Diagrams)
 
-### 1.1 สถาปัตยกรรมเดิม (Old Architecture: Traditional On-Premise Monolithic)
-สถาปัตยกรรมแบบดั้งเดิมที่เซิร์ฟเวอร์ทั้งหมดติดตั้งอยู่ภายในห้อง Data Center ของจุฬาลงกรณ์มหาวิทยาลัย:
+> [!TIP]
+> **สำหรับแคปเจอร์ภาพลงสไลด์:** แผนภาพด้านล่างถูกออกแบบให้มีขนาดกะทัดรัด (Compact Layout) จัดเรียงแนวนอน เพื่อให้สามารถแคปหน้าจอลงสไลด์อัตราส่วน 16:9 ได้ครบถ้วนภายใน 1 หน้าจอโดยไม่ต้อง Scroll
+
+### 1.1 แบบรวมภาพเดียว (Unified Single Diagram: แนะนำสำหรับใส่ใน Slide 4)
+*แคปภาพบล็อกนี้เพียงรูปเดียว จะเห็นวิวัฒนาการเปรียบเทียบ "เก่า vs ใหม่" ได้ทันที:*
 
 ```mermaid
-flowchart TD
-    subgraph Users_Old ["ผู้ใช้งาน (Global Public & Campus Users)"]
-        User_Old["ผู้ใช้งานทั้งหมด\n(ในประเทศ, ต่างประเทศ, เครือข่ายในจุฬาฯ)"]
+flowchart TB
+    subgraph OLD ["🔴 สถาปัตยกรรมเดิม: On-Premise Monolithic (SPOF & Bottlenecks)"]
+        direction LR
+        U1["ผู้ใช้งานทั่วไป\n(Global & Local)"] -->|"Direct HTTP"| GW["Campus Gateway & Firewall\n(🔴 คอขวด Bandwidth ขาเข้า)"]
+        GW --> SVR["Monolithic Web/App Server\n+ Local Disk /uploads/\n(🔴 ขยายเครื่องไม่ได้ / SPOF)"]
+        SVR --> DB1[("On-Premise MySQL\n(🔴 Single Database / SPOF)")]
     end
 
-    subgraph Campus_Network ["ระบบเครือข่ายมหาวิทยาลัย (Chula Campus Network)"]
-        Border_GW["Campus Border Gateway & Firewall\n⚠️ [จุดคอขวด Bandwidth ขาเข้าช่วงข่าวด่วน]"]
-        Core_SW["Campus Core Switch / Distribution LAN"]
-    end
-
-    subgraph DC_Chula ["ห้องเซิร์ฟเวอร์สำนักไอที (Chula On-Premise Data Center)"]
-        subgraph Monolith_Server ["On-Premise VM / Bare-Metal Server ⚠️ [SPOF & Fixed Hardware Capacity]"]
-            Web_App["Web Server (Apache / Nginx) + PHP Engine\n(Stateful Monolithic WordPress)"]
-            Local_Disk[("Local Disk Storage / NAS\nโฟลเดอร์: /wp-content/uploads/\n⚠️ [Coupled Assets & Disk I/O Bottleneck]")]
+    subgraph NEW ["🟢 สถาปัตยกรรมใหม่: Modern Multi-Cloud (High Availability & Elastic)"]
+        direction LR
+        U2["ผู้ใช้งานทั่วไป\n(Global Access)"] --> DNS["Anycast DNS / GSLB\n(Route 53 / Cloudflare)"]
+        DNS --> CDN["Multi-CDN & WAF\n(CloudFront + Cloud CDN)\n(🟢 แคชที่ Edge >90%)"]
+        
+        subgraph CLOUD_RUN ["Multi-Cloud Auto-scaling (AWS + GCP)"]
+            direction TB
+            AWS["AWS Thailand:\nECS Fargate + S3 Media + Aurora MySQL (Primary)"]
+            GCP["GCP Thailand:\nCloud Run + GCS Media + Cloud SQL (Standby DR)"]
+            AWS <-.->|"Cross-Cloud Sync & DB Replication"| GCP
         end
         
-        DB_Server[("On-Premise MySQL / MariaDB Server\n⚠️ [Single DB Instance / No Auto-Failover]")]
+        CDN -->|"Cache Miss Only"| CLOUD_RUN
     end
 
-    %% User Request Flow
-    User_Old -->|"Direct Inbound HTTP/HTTPS Traffic"| Border_GW
-    Border_GW --> Core_SW
-    Core_SW --> Web_App
-
-    %% Internal Communication
-    Web_App <-->|"Local File Read/Write I/O"| Local_Disk
-    Web_App <-->|"Direct TCP/Socket Query"| DB_Server
-
-    %% Styling Callouts
-    classDef bottleneck fill:#ffebee,stroke:#c62828,stroke-width:2px,color:#b71c1c;
-    class Border_GW,Monolith_Server,DB_Server,Local_Disk bottleneck;
+    classDef redBox fill:#ffebee,stroke:#c62828,stroke-width:1.5px;
+    classDef greenBox fill:#e8f5e9,stroke:#2e7d32,stroke-width:1.5px;
+    class GW,SVR,DB1 redBox;
+    class CDN,CLOUD_RUN,AWS,GCP greenBox;
 ```
-
-> **ปัญหาเชิงสถาปัตยกรรมของระบบเดิม (Architectural Bottlenecks):**
-> 1. **Single Point of Failure (SPOF):** หากห้อง Data Center จุฬาฯ ไฟดับ, สวิตช์หลักเสีย, หรือสาย Fiber ขาด เว็บหลักของมหาวิทยาลัยจะเข้าไม่ได้ทั่วโลกทันที
-> 2. **Network Bandwidth Saturation:** ทราฟฟิกทั้งหมดวิ่งตรงเข้ามหาวิทยาลัย หากมีข่าวด่วนหรือคนเปิดดูคลิป/รูปภาพพร้อมกัน ท่อเน็ตเวิร์กของมหาวิทยาลัยจะเต็ม
-> 3. **Fixed Compute & Coupled Storage:** ขยายเครื่อง (Scale out) ไม่ได้ในทันที และรูปภาพ/ไฟล์ข่าวถูกบันทึกลง Hard Disk ของเครื่องเซิร์ฟเวอร์ ทำให้เครื่องทำงานหนักทั้ง Web Serving และ Disk I/O
 
 ---
 
-### 1.2 สถาปัตยกรรมใหม่ (New Architecture: Modern Multi-Cloud Architecture)
-สถาปัตยกรรมใหม่ที่ย้ายขึ้น Public Cloud ข้าม 2 ผู้ให้บริการ (AWS + GCP) แยก Layer อย่างอิสระ:
+### 1.2 แบบแยกภาพเดี่ยวแนวนอน (Separate Horizontal Diagrams: สำหรับแคปแยกภาพ)
 
+#### (ก) สถาปัตยกรรมเดิม (Old Architecture - On-Premise)
 ```mermaid
-flowchart TD
-    subgraph Users_New ["ผู้ใช้งาน (Global Public & Chula Community)"]
-        User_New["ผู้ใช้งานทั่วโลก\n(Global Low Latency)"]
-    end
+flowchart LR
+    User["ผู้ใช้งาน\n(Global Public)"] -->|"Direct Traffic"| GW["Campus Gateway & Firewall\n(🔴 Bandwidth Bottleneck)"]
+    GW --> Web["On-Premise VM Server\n(Monolithic WordPress + Local Disk)\n(🔴 SPOF / Fixed Capacity)"]
+    Web --> DB[("MySQL Database Server\n(🔴 Single Instance / No Failover)")]
 
-    subgraph Edge_Routing ["Global Traffic Routing & Multi-CDN Layer (Edge)"]
-        DNS["Global Anycast DNS & GSLB\n(AWS Route 53 / Cloudflare)"]
-        CDN_AWS["Primary CDN & WAF (AWS CloudFront)\n⚡ [Edge Caching >90% of Traffic]"]
-        CDN_GCP["Secondary CDN & WAF (Google Cloud CDN)\n⚡ [Edge Caching & Automated Failover]"]
-    end
+    classDef red fill:#ffebee,stroke:#c62828,stroke-width:1.5px;
+    class GW,Web,DB red;
+```
 
-    subgraph AWS_Cloud ["Primary Cloud: AWS (Thailand Region)"]
-        ALB_AWS["Application Load Balancer (ALB)"]
-        ECS_AWS["Stateless WordPress Containers\n(AWS ECS Fargate - Auto-scaling)"]
-        Aurora_DB[("Amazon Aurora MySQL\n(Primary Read/Write Instance)")]
-        S3_AWS[("Amazon S3 Bucket\n(Decoupled Media & Uploads)")]
-        Redis_AWS["Amazon ElastiCache Redis\n(Object / Page Cache)"]
-    end
+#### (ข) สถาปัตยกรรมใหม่ (New Architecture - Multi-Cloud)
+```mermaid
+flowchart LR
+    User["ผู้ใช้งาน\n(Global Access)"] --> DNS["Global Anycast DNS / GSLB\n(Route 53 / Cloudflare)"]
+    DNS --> CDN["Multi-CDN & WAF Layer\n(🟢 Edge Caching >90-95%)"]
+    
+    CDN -->|"Primary (Active)"| AWS["AWS Thailand:\nStateless Containers + S3 + Aurora DB"]
+    CDN -.->|"Failover (DR)"| GCP["GCP Thailand:\nStateless Containers + GCS + Cloud SQL"]
+    
+    AWS <-.->|"Async DB Replication & Storage Sync"| GCP
 
-    subgraph GCP_Cloud ["Secondary / DR Cloud: GCP (Thailand Region)"]
-        ALB_GCP["Cloud Load Balancing"]
-        GKE_GCP["Stateless WordPress Containers\n(Cloud Run / GKE - Standby/Auto-scale)"]
-        CloudSQL_DB[("Google Cloud SQL MySQL\n(Standby Read-Replica / DR Instance)")]
-        GCS_GCP[("Google Cloud Storage GCS\n(Replicated Media Files)")]
-    end
-
-    %% User Flow
-    User_New -->|"HTTPS Request"| DNS
-    DNS -->|"Primary Route (80-100%)"| CDN_AWS
-    DNS -.->|"Failover / Spillover Route"| CDN_GCP
-
-    %% CDN to Compute (Cache Miss Only)
-    CDN_AWS -->|"Cache Miss / Dynamic CMS Request"| ALB_AWS
-    CDN_GCP -->|"Cache Miss / Standby Route"| ALB_GCP
-
-    %% AWS Internal Flow
-    ALB_AWS --> ECS_AWS
-    ECS_AWS <--> Redis_AWS
-    ECS_AWS --> Aurora_DB
-    ECS_AWS <--> S3_AWS
-
-    %% GCP Internal Flow
-    ALB_GCP --> GKE_GCP
-    GKE_GCP --> CloudSQL_DB
-    GKE_GCP <--> GCS_GCP
-
-    %% Cross-Cloud Data Synchronization
-    Aurora_DB -.->|"Asynchronous Cross-Cloud DB Replication"| CloudSQL_DB
-    S3_AWS <-.->|"Automated Cross-Cloud Bucket Sync"| GCS_GCP
-
-    %% Styling Highlights
-    classDef highlight fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#1b5e20;
-    class CDN_AWS,CDN_GCP,ECS_AWS,GKE_GCP,Aurora_DB,S3_AWS highlight;
+    classDef green fill:#e8f5e9,stroke:#2e7d32,stroke-width:1.5px;
+    class CDN,AWS,GCP green;
 ```
 
 ---
 
 ### 1.3 ตารางเปรียบเทียบสถาปัตยกรรมระดับ Layer (Architectural Transformation)
 
-| Architectural Layer | สถาปัตยกรรมเดิม (On-Premise) | สถาปัตยกรรมใหม่ (Multi-Cloud) | ประโยชน์ของการเปลี่ยนแปลง |
+| Architectural Layer | สถาปัตยกรรมเดิม (On-Premise) | สถาปัตยกรรมใหม่ (Multi-Cloud) | ผลลัพธ์เชิงสถาปัตยกรรม |
 | :--- | :--- | :--- | :--- |
-| **Ingress & Caching** | วิ่งตรงผ่าน Campus Gateway ของจุฬาฯ ไม่มี CDN สากล | **Anycast DNS + Multi-CDN (CloudFront + Cloud CDN)** | ตัดภาระโหลดของ Origin Server ได้กว่า 90-95% เปิดจากต่างประเทศได้เร็วทันที |
-| **Compute & Scaling** | Monolithic VM / Bare-metal เครื่องเดียว ขยายเครื่องไม่ได้ทันที | **Stateless Containers (ECS / Cloud Run)** รองรับ Horizontal Pod Autoscaling | ยืดหดเครื่องอัตโนมัติตามปริมาณข่าวด่วน (Elastic Scalability) ภายในหลักนาที |
-| **Storage & Assets** | Local Server Disk / NAS (`wp-content/uploads`) ผูกติดกับเครื่อง | **Decoupled Object Storage (AWS S3 + GCP Cloud Storage)** | แยกไฟล์มีเดียออกจากตัวเว็บ ไม่เปลืองดิสก์เซิร์ฟเวอร์ ทนทานระดับ 99.999999999% |
-| **Database & State** | Single MySQL Instance ในศูนย์คอมฯ จุฬาฯ ไม่มี Failover อัตโนมัติ | **Managed Relational DB (Aurora MySQL) + Cross-Cloud Read Replica (Cloud SQL)** | ทำ Disaster Recovery ข้ามคลาวด์ ป้องกันฐานข้อมูลล่ม 100% |
-| **High Availability** | ขึ้นอยู่กับ Data Center จุฬาฯ (SPOF สูง) | **Multi-Provider Resiliency (AWS + GCP)** | คลาวด์เจ้าหนึ่งล่ม อีกเจ้าให้บริการต่อได้ทันทีอย่างไร้รอยต่อ (Uptime 99.99%+) |
+| **Ingress & Caching** | วิ่งตรงผ่าน Campus Gateway ของจุฬาฯ ไม่มี CDN สากล | **Anycast DNS + Multi-CDN (CloudFront + Cloud CDN)** | ตัดภาระโหลดของ Origin Server ได้กว่า 90-95% โหลดเร็วทั่วโลก |
+| **Compute & Scaling** | Monolithic VM เครื่องเดียว ขยายเครื่องไม่ได้ทันที | **Stateless Containers (ECS / Cloud Run)** Auto-scaling | ยืดหดเครื่องอัตโนมัติตามปริมาณข่าวด่วน (Elastic) ในระดับนาที |
+| **Storage & Assets** | Local Server Disk / NAS (`wp-content/uploads`) | **Decoupled Object Storage (AWS S3 + GCP GCS Sync)** | แยกไฟล์มีเดียออกจากเซิร์ฟเวอร์ ทนทานระดับ 99.999999999% |
+| **Database & State** | Single MySQL Instance ในศูนย์คอมฯ จุฬาฯ | **Managed Aurora MySQL + Standby Cloud SQL** | ทำ Disaster Recovery ข้ามคลาวด์ ป้องกันฐานข้อมูลล่ม 100% |
+| **High Availability** | ขึ้นอยู่กับ Data Center จุฬาฯ (SPOF สูง) | **Multi-Provider Resiliency (AWS + GCP)** | คลาวด์ค่ายใดค่ายหนึ่งล่ม อีกเจ้าทำงานต่อได้ทันที (Uptime 99.99%+) |
 
 ---
 
@@ -189,12 +152,10 @@ flowchart TD
 
 ### 📌 Slide 4: Architecture Evolution (Old vs New Architecture)
 * **หัวข้อสไลด์:** Evolution of Architecture for `www.chula.ac.th` (On-Premise vs Multi-Cloud)
-* **การวาง Layout ในสไลด์:**
-  * **ฝั่งซ้าย:** แผนภาพ Old Architecture (แสดงจุดอ่อน: Campus Gateway Bottleneck, Single Server SPOF, Local Storage)
-  * **ฝั่งขวา:** แผนภาพ New Multi-Cloud Architecture (แสดงจุดแข็ง: Edge Multi-CDN, Stateless Containers, S3/GCS Decoupled Storage, Cross-Cloud DB Replication)
+* **การวางภาพประกอบ:** นำภาพจากข้อ **1.1 (Unified Single Diagram)** หรือนำภาพจากข้อ **1.2 (วางซ้าย-ขวา)** มาแปะลงสไลด์
 * **Bullet Points อธิบายสไลด์:**
   * ปรับเปลี่ยนจาก Monolithic On-Premise สู่ **Multi-Cloud (AWS + GCP)** เพื่อกำจัด Single Point of Failure
-  * ข้อมูลข่าวสารเป็น Public Content จึงแคชไว้ที่ Multi-CDN Edge ได้มากกว่า 90%
+  * ข้อมูลข่าวสารเป็น Public Content จึงแคชไว้ที่ Multi-CDN Edge ได้มากกว่า 90-95%
   * ใช้ Stateless Containers ร่วมกับ Auto-scaling เพื่อรองรับทราฟฟิกข่าวด่วนได้ทันที
 
 ---

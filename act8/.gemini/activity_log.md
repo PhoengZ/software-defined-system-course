@@ -46,3 +46,11 @@
 - **What was attempted:** Formulated an implementation plan to re-engineer both Old and New architecture diagrams by switching from sprawling vertical `flowchart TD` to horizontal `flowchart LR` / compact side-by-side layout, shortening node text, and providing a unified single-diagram comparison option that can be captured in a single 16:9 screenshot.
 - **Hypothesis being tested:** A streamlined horizontal layout with concise labels and side-by-side comparison will drastically reduce diagram height and fit perfectly within a single slide or capture window.
 - **The observed result/outcome:** Implementation plan drafted. Presenting to user for verification gate.
+## [2026-10-06 20:26:00 +07:00] - Updated slide_4_5_www_chula.md with Compact Mermaid Diagrams
+
+- **Topic:** Compact layout optimization for Mermaid architecture diagrams in `slide_4_5_www_chula.md`.
+- **What was attempted:** Replaced sprawling vertical diagrams with:
+  1. A unified, compact comparison diagram (`flowchart TB` containing dual horizontal `direction LR` blocks for Old and New architectures) that fits completely within a single 16:9 screen capture without scrolling.
+  2. Individual compact horizontal `flowchart LR` diagrams for Old and New architectures.
+- **Hypothesis being tested:** The compact horizontal orientation drastically reduces diagram height, allowing the user to capture both systems in a single screenshot for Slide 4.
+- **The observed result/outcome:** Updated `slide_4_5_www_chula.md` successfully. The diagrams render cleanly and compactly.
