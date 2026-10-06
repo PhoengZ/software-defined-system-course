@@ -24,3 +24,9 @@
 - **What was attempted:** Generated `slide_4_5_www_chula.md` containing the Mermaid architecture diagram, 4-layer breakdown, Multi-cloud rationale, comprehensive Pros/Cons evaluation, and specific remaining shortcomings compared to on-premise baseline.
 - **Hypothesis being tested:** Providing a structured, copy-paste ready Markdown file with slide layout mapping will directly fulfill the assignment specifications for Slides 4 and 5.
 - **The observed result/outcome:** Successfully created `slide_4_5_www_chula.md`. The documentation is ready for presentation slide authoring.
+## [2026-10-06 20:20:00 +07:00] - Implementation Plan for Old vs New Architecture Mermaid Comparison
+
+- **Topic:** Designing comparative Mermaid architecture diagrams (Old On-Premise vs New Multi-Cloud) in `slide_4_5_www_chula.md`.
+- **What was attempted:** Formulated an implementation plan to enhance `slide_4_5_www_chula.md` by adding a dedicated On-Premise baseline Mermaid diagram alongside the Multi-Cloud diagram, with explicit layer-by-layer visual callouts highlighting bottlenecks (SPOF, bandwidth constraints, stateful coupling) versus cloud architectural benefits (edge caching, stateless auto-scaling, decoupled object storage).
+- **Hypothesis being tested:** Visualizing both old and new architectures side-by-side will clearly demonstrate the structural contrast required for Slide 4-5.
+- **The observed result/outcome:** Implementation plan created. Presenting to user for verification gate prior to updating `slide_4_5_www_chula.md`.
