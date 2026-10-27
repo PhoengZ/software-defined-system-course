@@ -70,24 +70,30 @@
   - **Highest:** `Cloud` (ค่าเฉลี่ย: `100.00` %)
   - **Lowest:** `Edge` (ค่าเฉลี่ย: `94.20` %)
 
-#### 2. บทวิเคราะห์สาเหตุเชิงเทคนิค (สามารถคัดลอกข้อความด้านล่างไปใช้ตอบได้):
+#### 2. บทวิเคราะห์สาเหตุเชิงเทคนิค (สามารถคัดลอกข้อความด้านล่างไปใช้ตอบได้ทันที):
 ```text
-Based on the experimental results from the summary sheet, the performance differences among Edge, Cloud, and Edge-Cloud can be analyzed as follows:
+จากผลการทดลองในแถบ Result Summary สรุปการเปรียบเทียบในแต่ละ Metric ได้ดังนี้:
 
 1. Average Response Time (ms):
-- Lowest: Edge configuration exhibits the lowest response time because the processing occurs entirely on the local machine (127.0.0.1). There is zero wide-area network transmission overhead or propagation delay.
-- Highest: Cloud configuration has the highest response time due to the network round-trip time (RTT). The client must upload a high-resolution image over the Internet to the AWS SageMaker endpoint (ap-southeast-1) and wait for the response payload to return.
-- Edge-Cloud provides a balanced intermediate response time: it achieves fast local response for high-confidence predictions and only incurs cloud transmission latency when the edge model indicates low confidence.
+- ต่ำที่สุด (Lowest): Edge (เฉลี่ย 1,304.89 ms)
+  เหตุผล: Edge ประมวลผลทุกอย่างอยู่ภายในเครื่อง Local PC เองทั้งหมด (127.0.0.1) ไม่มีการส่งข้อมูลรูปภาพขนาดใหญ่ออกไปยังภายนอก จึงไม่มีค่า Network Latency หรือเวลาหน่วงจากการส่งผ่านเครือข่ายเลย
+- สูงที่สุด (Highest): Cloud (เฉลี่ย 2,136.12 ms)
+  เหตุผล: ฝั่ง Cloud ต้องเจอกับ Network Round-Trip Time (RTT) เพราะเครื่องลูกข่ายต้องบีบอัดรูปภาพแล้วอัปโหลดผ่านระบบอินเทอร์เน็ตไปยัง AWS SageMaker Endpoint ที่ต่างประเทศ แล้วรอรับข้อมูลผลลัพธ์กลับมา ทำให้เสียเวลาเดินทางบนเครือข่ายเป็นหลัก
+* ส่วน Edge-Cloud ได้ค่าเฉลี่ย 1,942.47 ms อยู่ในระดับปานกลาง เนื่องจากบางรูปที่มีความมั่นใจสูงจะประมวลผลจบที่เครื่องตัวเองได้ทันที แต่ถ้ารูปไหนตรวจจับได้ยาก ระบบจะส่งต่อขึ้น Cloud ทำให้เวลาเฉลี่ยถูกดึงขึ้นมาอยู่ตรงกลาง
 
 2. Average Processing Time (ms):
-- Lowest: Cloud configuration demonstrates the fastest inference/processing time because it utilizes dedicated cloud compute instances optimized for neural network inference, despite running the heavyweight YOLOv8x model.
-- Edge configuration uses the lightweight YOLOv8n model (~3.2M parameters) to minimize compute requirements, yet local execution speed depends on the host PC's CPU/GPU capability.
-- Edge-Cloud processing time accounts for local inference plus optional cloud inference overhead when offloading is triggered.
+- ต่ำที่สุด (Lowest): Edge (เฉลี่ย 1,247.03 ms)
+  เหตุผล: Edge รันด้วยโมเดลขนาดเล็กอย่าง YOLOv8n (มีพารามิเตอร์เพียงประมาณ 3.2M) ซึ่งถูกออกแบบมาให้โครงข่ายมีความซับซ้อนต่ำ คำนวณได้เบาและรวดเร็วบนซีพียูทั่วไป
+- สูงที่สุด (Highest): Edge-Cloud (เฉลี่ย 1,885.78 ms)
+  เหตุผล: ในกรณีที่รูปภาพมีคนหนาแน่นหรือมีความกำกวม ระบบของ Edge-Cloud จะต้องทำการรันโมเดลเล็กที่ Edge ให้เสร็จก่อนหนึ่งรอบ จากนั้นเมื่อพบว่าค่าความมั่นใจ (Confidence) ต่ำกว่าเกณฑ์ที่กำหนด จึงจำเป็นต้องส่งรูปภาพไปให้โมเดลใหญ่ YOLOv8x บน Cloud คำนวณซ้ำอีกครั้ง ส่งผลให้เวลาประมวลผลกลายเป็นการบวกเวลาระหว่างทั้งสองระบบรวมกัน
+* ขณะที่ Cloud รันโมเดลตัวใหญ่ YOLOv8x (มีพารามิเตอร์ 68.2M) ตัวเดียวบนทรัพยากร vCPU ของ SageMaker ทำให้ใช้เวลาประมวลผลคงที่อยู่ที่ประมาณ 1,773.48 ms
 
-3. Accuracy (%):
-- Highest: Cloud achieves the highest accuracy because it deploys YOLOv8x, which has deeper feature representations, higher parameter count (~68.2M), and significantly better capability in detecting small, distant, or occluded people in crowded scenes.
-- Lowest: Edge exhibits the lowest accuracy as YOLOv8n sacrifices detection sensitivity and complex bounding box resolution in exchange for low memory footprint and execution speed.
-- Edge-Cloud achieves near-cloud accuracy because low-confidence edge detections are dynamically delegated to the cloud YOLOv8x model, effectively recovering difficult edge-case detections.
+3. Average Accuracy (%):
+- สูงที่สุด (Highest): Cloud (เฉลี่ย 100.00%)
+  เหตุผล: โมเดล YOLOv8x บน Cloud มีสถาปัตยกรรมโครงข่ายประสาทเทียมที่ลึกและมีจำนวนพารามิเตอร์สูงมาก ทำให้สามารถสกัดฟีเจอร์และจับรายละเอียดที่ซับซ้อน เช่น คนที่ยืนซ้อนกัน คนที่ตัวเล็ก หรือคนที่อยู่ไกลได้อย่างครบถ้วนโดยไม่มีการตรวจหลุด
+- ต่ำที่สุด (Lowest): Edge (เฉลี่ย 94.20%)
+  เหตุผล: โมเดล YOLOv8n ตัดทอนเลเยอร์ลงเพื่อแลกกับความเร็ว ทำให้ความละเอียดในการวาด Bounding Box ลดลง ส่งผลให้ในภาพที่มีคนแออัดหรือยืนบังกัน (เช่น รูปที่ 2 ตรวจได้ 6 จาก 9 คน และรูปที่ 4 ตรวจได้ 16 จาก 24 คน) มีคนบางส่วนที่โมเดลตรวจจับไม่พบ
+* ทั้งนี้ Edge-Cloud สามารถทำความแม่นยำเฉลี่ยได้สูงถึง 97.00% เพราะมีกลไกตรวจสอบความมั่นใจ เมื่อโมเดลเล็กไม่แน่ใจ ระบบจะส่งภาพไปให้ Cloud ช่วยยืนยันผล จึงสามารถกู้คืนเคสที่ Edge พลาดไปให้กลับมาตรวจจับได้ถูกต้องเกือบเทียบเท่า Cloud
 ```
 
 ---
@@ -95,32 +101,29 @@ Based on the experimental results from the summary sheet, the performance differ
 ### Question 2: Suitable use cases (1 point)
 > **โจทย์:** Based on the results, which computing setup (Edge, Cloud, or Edge–Cloud) is best suited for different application characteristics/needs/requirements, considering the trade-offs among accuracy, response time, and cost?
 
-#### บทวิเคราะห์และการจัดสรร Use Cases (สามารถคัดลอกข้อความด้านล่างไปใช้ตอบได้):
+#### บทวิเคราะห์และการจัดสรร Use Cases (สามารถคัดลอกข้อความด้านล่างไปใช้ตอบได้ทันที):
 ```text
-Considering the trade-offs among Accuracy, Response Time, Bandwidth, and Financial Cost, the recommended use cases for each computing setup are:
+เมื่อพิจารณาข้อดีข้อเสีย (Trade-offs) ทั้ง 4 ด้าน ได้แก่ ความแม่นยำ (Accuracy), ความเร็วในการตอบสนอง (Response Time), ปริมาณแบนด์วิธ (Bandwidth) และค่าใช้จ่าย (Cost) การเลือกใช้งานแต่ละระบบมีความเหมาะสมกับลักษณะงานดังต่อไปนี้:
 
-1. Edge Computing Setup:
-- Best suited for: Real-time, mission-critical applications where latency is paramount (<150 ms), privacy is critical, or network connectivity is unstable/offline.
-- Trade-offs: Sacrifices slight detection accuracy in dense crowds to achieve zero-latency and zero ongoing cloud service costs.
-- Practical Use Cases:
-  * Smart pedestrian crossing signals and safety gates where instant local decisions are required.
-  * In-vehicle driver monitoring or drone surveillance in remote offline areas.
-  * Private premises surveillance where video streams must not leave the local network for GDPR/PDPA compliance.
+1. Edge Computing Setup (เหมาะกับงานที่ต้องการความเร็วระดับ Real-time, ออฟไลน์ และต้องการความเป็นส่วนตัวสูง):
+- จุดเด่นและข้อแลกเปลี่ยน: มี Response Time ต่ำที่สุดและไม่มีค่าใช้จ่ายบริการคลาวด์รายเดือน ข้อมูลภาพไม่รั่วไหลออกนอกสถานที่ (ตอบโจทย์กฎหมาย PDPA/ความเป็นส่วนตัว) แต่ต้องยอมรับความแม่นยำที่ลดลงบ้างในสถานการณ์ที่มีคนแออัด
+- งานที่เหมาะสม:
+  * ระบบไฟข้ามถนนอัจฉริยะและประตูกั้นชานชาลาอัตโนมัติ: ต้องตัดสินใจแบบเรียลไทม์ทันทีเพื่อความปลอดภัย หน่วงเวลาไม่ได้แม้แต่วินาทีเดียว
+  * กล้องตรวจจับในพื้นที่ห่างไกล หรือบนโดรนสำรวจ: สัญญาณอินเทอร์เน็ตไม่เสถียรหรือไม่มีการเชื่อมต่อเครือข่าย ต้องสามารถทำงานแบบ Offline ได้
+  * ระบบกล้องในพื้นที่ความลับสูงหรือห้องส่วนบุคคล: เช่น โรงพยาบาล หรือโรงงานวิจัย ที่มีนโยบายห้ามส่งข้อมูลภาพออกนอกเครือข่ายภายใน
 
-2. Cloud Computing Setup:
-- Best suited for: Applications where absolute accuracy is paramount, batch analytics are sufficient, and centralized high-performance computing can be scaled on demand.
-- Trade-offs: Offers top-tier precision and centralized model management, but incurs significant ongoing AWS infrastructure costs and higher network latency.
-- Practical Use Cases:
-  * Post-event surveillance video auditing, forensic crowd density analysis, and historical foot-traffic analytics.
-  * High-precision security screening where missing any detection (false negatives) carries severe penalties.
-  * Centralized camera analytics across multiple branches without requiring powerful edge compute hardware.
+2. Cloud Computing Setup (เหมาะกับงานที่ต้องการความถูกต้องแม่นยำสูงสุด หรืองานวิเคราะห์ข้อมูลย้อนหลัง):
+- จุดเด่นและข้อแลกเปลี่ยน: ให้ความแม่นยำสูงที่สุด (Accuracy 100%) รองรับโมเดลขนาดใหญ่ และสามารถรวมศูนย์ข้อมูลจากหลายจุดเข้ามาที่เดียวได้ง่าย แต่ต้องแลกกับความเร็วในการตอบสนองที่ช้ากว่าเนื่องจากติดปัญหา Network Latency และมีค่าใช้จ่ายเซิร์ฟเวอร์คลาวด์ต่อเนื่องตามระยะเวลาที่เปิดใช้งาน
+- งานที่เหมาะสม:
+  * การตรวจนับสถิติคนและความหนาแน่นย้อนหลัง (Foot-traffic Analytics & Audit): นำวิดีโอจากหลายสาขามาประมวลผลสรุปยอดคนประจำวัน ซึ่งไม่จำเป็นต้องทราบผลทันที แต่ต้องการตัวเลขที่แม่นยำที่สุด
+  * ระบบรักษาความปลอดภัยขั้นสูง (High-security Screening): เช่น สนามบิน หรือเรือนจำ ที่ยอมรับความผิดพลาดในการตรวจจับ (False Negative) ไม่ได้เลยแม้แต่คนเดียว
+  * ระบบกล้องวงจรปิดของสาขาย่อยจำนวนมาก: หน้าร้านใช้กล้องธรรมดา แล้วส่งภาพมารวมวิเคราะห์ที่คลาวด์ส่วนกลาง ช่วยให้ดูแลและอัปเดตโมเดลเวอร์ชันใหม่ได้พร้อมกันทุกสาขา
 
-3. Edge–Cloud (Hybrid) Computing Setup:
-- Best suited for: Scalable real-world deployments that require high overall accuracy while maintaining low average latency and controlling cloud operation/bandwidth costs.
-- Trade-offs: Delivers the optimal balance by offloading only ambiguous/uncertain frames (low confidence) to the cloud, minimizing bandwidth and cloud compute fees while maintaining near-cloud accuracy.
-- Practical Use Cases:
-  * Smart City and Campus Surveillance: Handling routine foot traffic quickly at the edge, while offloading crowded or occluded scenes to SageMaker for deep inspection.
-  * Retail Store Customer Analytics: Running real-time occupancy counting locally at the entrance, while escalating complex queue or group analysis to the cloud.
+3. Edge–Cloud Computing Setup (Hybrid) (เหมาะกับระบบ Smart City และธุรกิจที่ต้องการสมดุลความเร็ว ความแม่นยำ และคุมงบประมาณ):
+- จุดเด่นและข้อแลกเปลี่ยน: เป็นสถาปัตยกรรมที่ลงตัวที่สุดสำหรับระบบจริง เพราะภาพส่วนใหญ่ที่ตรวจจับได้ง่ายจะจบที่ Edge ทันที ช่วยประหยัดแบนด์วิธและลดจำนวนครั้งที่ต้องเรียกใช้คลาวด์ และจะส่งขึ้น Cloud เฉพาะภาพที่โมเดลเล็กไม่มั่นใจเท่านั้น ทำให้ได้ความแม่นยำสูงถึง 97% ในขณะที่ควบคุมค่าใช้จ่ายคลาวด์ได้ดีเยี่ยม
+- งานที่เหมาะสม:
+  * ระบบกล้องตรวจนับคนในมหาวิทยาลัยและห้างสรรพสินค้า (Smart Campus & Smart Retail): วันปกติที่คนเดินกระจายตัวกัน Edge จะนับและแสดงผลได้ทันที แต่เมื่อถึงช่วงเทศกาลหรือจุดที่มีคนยืนบังกัน ระบบจะส่งภาพขึ้น SageMaker ไปวิเคราะห์อย่างละเอียด
+  * ระบบเมืองอัจฉริยะ (Smart City Surveillance): กล้องประจำเสาไฟตรวจนับคนและยานพาหนะทั่วไปที่หน้างาน และจะส่งเฉพาะภาพเหตุการณ์แปลกๆ ภาพที่มีหมอกควันหนาแน่น หรือภาพที่ไม่ชัดเจนขึ้นคลาวด์เพื่อยืนยันผลซ้ำ
 ```
 
 ---
