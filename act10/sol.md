@@ -15,7 +15,7 @@
 
 ```markdown
 <!-- วางรูปภาพที่นี่ (บันทึกเป็นชื่อ sagemaker_notebook.png ในโฟลเดอร์เดียวกัน) -->
-![Screenshot AWS SageMaker (Jupyter Notebook)](./sagemaker_notebook.png)
+![alt text](image.png)
 ```
 
 ---
@@ -25,7 +25,7 @@
 
 ```markdown
 <!-- วางรูปภาพที่นี่ (บันทึกเป็นชื่อ webpage_service.png ในโฟลเดอร์เดียวกัน) -->
-![Screenshot “Welcome to People Counting Services” (Webpage)](./webpage_service.png)
+![alt text](image-1.png)
 ```
 
 ---
@@ -46,9 +46,9 @@
 
 | Configuration | Average Response Time (ms) | Average Processing Time (ms) | Accuracy (%) |
 | :--- | :---: | :---: | :---: |
-| **Edge (YOLOv8n)** | `[กรอก เช่น 125.40 ms]` | `[กรอก เช่น 115.20 ms]` | `[กรอก เช่น 78.50%]` |
-| **Cloud (YOLOv8x)** | `[กรอก เช่น 640.80 ms]` | `[กรอก เช่น 82.10 ms]` | `[กรอก เช่น 95.00%]` |
-| **Edge–Cloud (Hybrid)** | `[กรอก เช่น 285.60 ms]` | `[กรอก เช่น 132.50 ms]` | `[กรอก เช่น 91.20%]` |
+| **Edge (YOLOv8n)** | `1,304.89 ms` | `1,247.03 ms` | `94.20%` |
+| **Cloud (YOLOv8x)** | `2,136.12 ms` | `1,773.48 ms` | `100.00%` |
+| **Edge–Cloud (Hybrid)** | `1,942.47 ms` | `1,885.78 ms` | `97.00%` |
 
 ---
 
@@ -61,14 +61,14 @@
 
 #### 1. การระบุค่าสูงสุด (Highest) และค่าต่ำสุด (Lowest):
 - **Average Response Time (ms):**
-  - **Highest:** `[ระบุ เช่น Cloud]` (ค่าเฉลี่ย: `______` ms)
-  - **Lowest:** `[ระบุ เช่น Edge]` (ค่าเฉลี่ย: `______` ms)
+  - **Highest:** `Cloud` (ค่าเฉลี่ย: `2,136.12` ms)
+  - **Lowest:** `Edge` (ค่าเฉลี่ย: `1,304.89` ms)
 - **Average Processing Time (ms):**
-  - **Highest:** `[ระบุ เช่น Edge หรือ Edge-Cloud ขึ้นกับสเปกเครื่อง]` (ค่าเฉลี่ย: `______` ms)
-  - **Lowest:** `[ระบุ เช่น Cloud]` (ค่าเฉลี่ย: `______` ms)
+  - **Highest:** `Edge-Cloud` (ค่าเฉลี่ย: `1,885.78` ms)
+  - **Lowest:** `Edge` (ค่าเฉลี่ย: `1,247.03` ms)
 - **Accuracy (%):**
-  - **Highest:** `[ระบุ เช่น Cloud]` (ค่าเฉลี่ย: `______` %)
-  - **Lowest:** `[ระบุ เช่น Edge]` (ค่าเฉลี่ย: `______` %)
+  - **Highest:** `Cloud` (ค่าเฉลี่ย: `100.00` %)
+  - **Lowest:** `Edge` (ค่าเฉลี่ย: `94.20` %)
 
 #### 2. บทวิเคราะห์สาเหตุเชิงเทคนิค (สามารถคัดลอกข้อความด้านล่างไปใช้ตอบได้):
 ```text
