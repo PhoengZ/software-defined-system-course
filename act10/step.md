@@ -1,33 +1,44 @@
 # คู่มือขั้นตอนการทำปฏิบัติการ Activity 10: People Counting Service using Edge–Cloud Architecture
 
-คู่มือนี้จัดทำขึ้นตามเอกสารกิจกรรมอย่างละเอียด โดยมีสัญลักษณ์แจ้งเตือนจุดที่ต้อง **📸 บันทึกภาพหน้าจอ (Capture)**, **📊 บันทึกไฟล์ (File)** หรือ **📝 ตอบคำถาม (Answer Question)** สำหรับส่งงานบนระบบ mCV
+คู่มือนี้จัดทำขึ้นตามเอกสารกิจกรรมและหน้าส่งงานจริงบนระบบ **myCourseVille (mCV)** อย่างละเอียด โดยมีสัญลักษณ์แจ้งเตือนจุดที่ต้อง **📸 บันทึกภาพหน้าจอ (Capture)**, **📊 บันทึกไฟล์ (File)** หรือ **📝 ตอบคำถาม (Answer Question)** ทั้งหมด 5 ข้อ (ข้อละ 1 คะแนน รวม 5 คะแนนเต็ม)
 
 ---
 
-## 📋 สรุปรายการสิ่งที่จะต้องส่งบนระบบ mCV (Submission Checklist)
-
-### ส่วนที่ 1: แนบไฟล์ (mCV: Attach files)
-1. 📸 **Screenshot ที่ 1:** ภาพหน้าจอ AWS SageMaker AI (Jupyter Notebook) ขณะรันจน Endpoint มีสถานะ `InService` *(ได้จากขั้นตอนที่ 2)*
-2. 📸 **Screenshot ที่ 2:** ภาพหน้าจอหน้าเว็บ "Welcome to People Counting Services" (`http://localhost:5173/`) *(ได้จากขั้นตอนที่ 4)*
-3. 📊 **ไฟล์ที่ 3:** ไฟล์สเปรดชีต `People counting record sheet.xlsx` ที่กรอกข้อมูลและแทรกรูปครบถ้วน *(ได้จากขั้นตอนที่ 5)*
-
-### ส่วนที่ 2: ตอบคำถาม (mCV: Answer the questions)
-1. 📝 **Question 1 (Performance comparison):** เปรียบเทียบ Average Response Time, Average Processing Time และ Average Accuracy พร้อมวิเคราะห์เหตุผล *(ตอบหลังจบขั้นตอนที่ 5)*
-2. 📝 **Question 2 (Suitable use cases):** วิเคราะห์ความเหมาะสมในการนำไปใช้งาน (Use cases) และ Trade-offs ของแต่ละสถาปัตยกรรม *(ตอบหลังจบขั้นตอนที่ 5)*
-3. 📝 **Question 3 (AWS cleanup):** ยืนยันว่าได้ทำขั้นตอน Cleanup ทรัพยากรบน AWS เรียบร้อยแล้ว *(ตอบหลังจบขั้นตอนที่ 6)*
+## 📌 ข้อมูลการส่งงานบน myCourseVille
+- **ชื่อกิจกรรม:** Activity 10: Edge-Cloud Computing (2110415 Software-Defined System 2026/1)
+- **ผู้ส่ง:** เผ่าลาภ กุลธีระ
+- **วันเปิดกิจกรรม (Out):** 27 ตุลาคม 2026
+- **กำหนดส่ง (Due Date):** **2 พฤศจิกายน 2026 เวลา 23:59 น.**
+- **คะแนนเต็ม:** 5 คะแนน (คำถาม 5 ข้อ ข้อละ 1 คะแนน)
 
 ---
 
-## 🛠️ รายละเอียดขั้นตอนการปฏิบัติการทีละ Step
+## 📋 สรุปรายการสิ่งที่จะต้องส่งบนระบบ myCourseVille (Submission Checklist)
+
+### ส่วนที่ 1: แนบไฟล์ในแต่ละ Slot (Attach a file to each attachment slot - สูงสุด 20 MB/ไฟล์)
+1. 📸 **Slot 1:** `Screenshot AWS SageMaker (Jupyter Notebook)` — ภาพหน้าจอ Jupyter Notebook ขณะรันจน Endpoint มีสถานะ `InService` *(ได้จาก Step 2)*
+2. 📸 **Slot 2:** `Screenshot “Welcome to People Counting Services” (Webpage)` — ภาพหน้าจอหน้าเว็บ `http://localhost:5173/` *(ได้จาก Step 4)*
+3. 📊 **Slot 3:** `Completed People counting record sheet (.xlsx)` — ไฟล์สเปรดชีตที่กรอกข้อมูลและแทรกรูปภาพครบถ้วน *(ได้จาก Step 5)*
+
+### ส่วนที่ 2: ตอบชุดคำถาม (Complete the question set - รวม 5 คะแนน)
+1. 📝 **Question 1 (1 point - พิมพ์ตอบ):** `Performance comparison` — เปรียบเทียบ Average Response Time, Average Processing Time และ Average Accuracy พร้อมวิเคราะห์เหตุผล *(ตอบหลังจบ Step 5)*
+2. 📝 **Question 2 (1 point - พิมพ์ตอบ):** `Suitable use cases` — วิเคราะห์ความเหมาะสมในการนำไปใช้งานและ Trade-offs ของแต่ละสถาปัตยกรรม *(ตอบหลังจบ Step 5)*
+3. 📝 **Question 3 (1 point - เลือกช้อยส์):** `AWS cleanup` — ยืนยันว่าได้ทำขั้นตอน Cleanup ทรัพยากรบน AWS เรียบร้อยแล้ว (เลือกตอบ `(x) Yes`) *(ตอบหลังจบ Step 6)*
+4. 📝 **Question 4 (1 point - เลือกช้อยส์):** `Activity Feedback` — *"How difficult was this activity?"* (เลือก `Too easy` / `Just right` / `Too difficult`) *(ตอบใน Step 7)*
+5. 📝 **Question 5 (1 point - พิมพ์ตอบ):** `Activity Feedback` — *"Suggestions for improvement or other feedback."* (พิมพ์ข้อเสนอแนะเพื่อปรับปรุงกิจกรรม) *(ตอบใน Step 7)*
+
+---
+
+## 🛠️ แผนผังและรายละเอียดขั้นตอนการปฏิบัติการทีละ Step
 
 ```mermaid
 flowchart TD
     S1["Step 1: เตรียมเครื่อง PC & Environment"] --> S2["Step 2: Deploy YOLOv8 บน AWS SageMaker"]
-    S2 -->|"📸 Capture Screenshot 1"| S3["Step 3: สร้าง IAM User & Access Key"]
+    S2 -->|"📸 Capture Slot 1: Notebook InService"| S3["Step 3: สร้าง IAM User & Access Key"]
     S3 --> S4["Step 4: ตั้งค่า .env & รัน Docker Web Client"]
-    S4 -->|"📸 Capture Screenshot 2"| S5["Step 5: ทดสอบ People Counting & บันทึก Excel"]
-    S5 -->|"📊 บันทึก Excel | 📝 ตอบ Question 1 & 2"| S6["Step 6: Cleanup AWS & Docker"]
-    S6 -->|"📝 ยืนยันคำถาม Question 3"| S7["Step 7: ตรวจสอบและส่งงานบน mCV"]
+    S4 -->|"📸 Capture Slot 2: Webpage Service"| S5["Step 5: ทดสอบ People Counting & บันทึก Excel"]
+    S5 -->|"📊 Slot 3: บันทึก Excel | 📝 ตอบ Question 1 & 2"| S6["Step 6: Cleanup AWS & Docker"]
+    S6 -->|"📝 เลือก Yes ใน Question 3"| S7["Step 7: ตอบ Question 4, 5 และกด Save / Submit"]
 ```
 
 ---
@@ -86,10 +97,11 @@ flowchart TD
    - ไปที่ AWS Console: *Amazon SageMaker AI* $\rightarrow$ *Deployments & inference* $\rightarrow$ *Endpoints* ตรวจสอบว่า Endpoint ชื่อ `YOLOv8` มีสถานะเป็น **InService**
 
 > [!IMPORTANT]
-> ### 📸 [จุดที่ต้อง CAPTURE #1]: AWS SageMaker AI Notebook
+> ### 📸 [จุดที่ต้อง CAPTURE #1]: Slot 1 — AWS SageMaker Notebook
 > **สิ่งที่จะต้องทำทันทีหลังเสร็จสิ้น Step 2:**
-> 1. แคปภาพหน้าจอ **Jupyter Notebook (`EndpointDeployment.ipynb`)** ที่แสดงผลลัพธ์เซลล์สุดท้ายว่า `Endpoint Status = InService` หรือหน้า AWS Console ที่แสดง Endpoint `YOLOv8` เป็นสถานะ `InService`
-> 2. นำภาพไปวางลงใน `sol.md` (หัวข้อ Screenshot 1) และเตรียมไว้อัปโหลดในช่อง **mCV: Attach files ข้อที่ 1**
+> 1. แคปภาพหน้าจอ **Jupyter Notebook (`EndpointDeployment.ipynb`)** ที่แสดงผลลัพธ์เซลล์ว่า `Endpoint Status = InService` หรือหน้า AWS Console ที่แสดง Endpoint `YOLOv8` มีสถานะ `InService`
+> 2. นำภาพมาเตรียมไว้สำหรับอัปโหลดใน myCourseVille ช่อง:
+>    **`Screenshot AWS SageMaker (Jupyter Notebook)`** (ขนาดไม่เกิน 20 MB)
 
 ---
 
@@ -143,10 +155,11 @@ flowchart TD
    จะพบกับหน้าเว็บหัวข้อ **"Welcome to People Counting Services"**
 
 > [!IMPORTANT]
-> ### 📸 [จุดที่ต้อง CAPTURE #2]: Web Application
+> ### 📸 [จุดที่ต้อง CAPTURE #2]: Slot 2 — Web Application
 > **สิ่งที่จะต้องทำทันทีหลังเสร็จสิ้น Step 4:**
 > 1. แคปภาพหน้าจอหน้าเว็บ **"Welcome to People Counting Services"** ที่ URL `http://localhost:5173/`
-> 2. นำภาพไปวางลงใน `sol.md` (หัวข้อ Screenshot 2) และเตรียมไว้อัปโหลดในช่อง **mCV: Attach files ข้อที่ 2**
+> 2. นำภาพมาเตรียมไว้สำหรับอัปโหลดใน myCourseVille ช่อง:
+>    **`Screenshot “Welcome to People Counting Services” (Webpage)`** (ขนาดไม่เกิน 20 MB)
 
 ---
 
@@ -168,20 +181,21 @@ flowchart TD
 4. กรอกข้อมูลให้ครบถ้วนทุกช่องที่มี **แถบสีเหลือง** ในไฟล์ Excel รวมถึงแถวสรุปผลเฉลี่ย (Result Summary) ท้ายตาราง
 
 > [!IMPORTANT]
-> ### 📊 [จุดที่ต้องบันทึกไฟล์ #3]: Completed Excel Record Sheet
-> - บันทึกและตรวจสอบไฟล์ `People counting record sheet.xlsx` ว่าได้ใส่ภาพในเซลล์และคำนวณค่าเฉลี่ยครบทุกช่องแล้ว
-> - เตรียมไฟล์นี้สำหรับอัปโหลดในช่อง **mCV: Attach files ข้อที่ 3**
+> ### 📊 [จุดที่ต้องบันทึกไฟล์ #3]: Slot 3 — Completed Excel Record Sheet
+> - บันทึกไฟล์ `People counting record sheet.xlsx` ที่กรอกข้อมูลและใส่ภาพในเซลล์ครบถ้วน
+> - ตรวจสอบขนาดไฟล์ไม่ให้เกิน 20 MB เพื่ออัปโหลดใน myCourseVille ช่อง:
+>   **`Completed People counting record sheet (.xlsx)`**
 
 > [!TIP]
-> ### 📝 [จุดที่ต้องตอบคำถาม QUESTION 1 & 2 บน mCV]
+> ### 📝 [จุดที่ต้องตอบคำถาม QUESTION 1 & 2 บน myCourseVille (ข้อละ 1 คะแนน)]
 > เมื่อกรอกข้อมูลใน Excel เสร็จสิ้น ให้นำค่าจากแถบ **Result summary** มาวิเคราะห์เพื่อตอบคำถาม:
 > 
-> 1. **ตอบ Question 1 (Performance comparison):**
->    - นำค่า `Average Response Time (ms)`, `Average Processing Time (ms)` และ `Average Accuracy (%)` ของแต่ละบริการมาเปรียบเทียบ
->    - ชี้ชัดว่าบริการใดได้ค่า **สูงสุด (Highest)** และ **ต่ำสุด (Lowest)** ในแต่ละค่า
->    - อธิบายสาเหตุทางเทคนิค (ผลกระทบของ Network RTT / การส่งผ่าน Internet, ความซับซ้อนของ YOLOv8n vs YOLOv8x, และการทำงานของระบบ Hybrid)
-> 2. **ตอบ Question 2 (Suitable use cases):**
->    - สรุปว่า Edge, Cloud และ Edge-Cloud เหมาะสมกับ Use case ลักษณะใด โดยคำนึงถึง Accuracy, Response Time, Bandwidth และ Cost
+> 1. **Question 1 (1 point): Performance comparison**
+>    - นำค่า `Average Response Time (ms)`, `Average Processing Time (ms)` และ `Accuracy` ของแต่ละบริการมาเปรียบเทียบ
+>    - ชี้ชัดว่าบริการใดได้ค่า **Highest** และ **Lowest** ในแต่ละ Metric
+>    - อธิบายสาเหตุทางเทคนิค (Network RTT / การส่งผ่าน Internet, ความซับซ้อนของ YOLOv8n vs YOLOv8x, ขีดความสามารถ Hardware CPU vs GPU, และกลไกของ Hybrid Confidence Threshold)
+> 2. **Question 2 (1 point): Suitable use cases**
+>    - สรุปว่า Edge, Cloud และ Edge-Cloud เหมาะสมกับ Use case ลักษณะใด โดยคำนึงถึง Accuracy, Response Time, Bandwidth และ Cost Trade-offs
 >    *(คุณสามารถนำโครงร่างคำตอบจากไฟล์ `sol.md` ไปปรับแต่งใช้ตอบได้ทันที)*
 
 ---
@@ -214,16 +228,28 @@ flowchart TD
    - กลับมาที่หน้ารายชื่อ Users ติ๊กเลือก `sds-sagemaker` แล้วกด **Delete** เพื่อลบ User
 
 > [!IMPORTANT]
-> ### 📝 [จุดที่ต้องตอบคำถาม QUESTION 3 บน mCV]
-> เมื่อทำขั้นตอน Cleanup ครบทั้ง 4 ข้อข้างต้นแล้ว ให้นำไปตอบในช่อง **mCV: Answer the questions ข้อ 3 (AWS cleanup)** ว่าได้ดำเนินการลบเรียบร้อยแล้ว
+> ### 📝 [จุดที่ต้องตอบคำถาม QUESTION 3 บน myCourseVille (1 คะแนน)]
+> เมื่อทำขั้นตอน Cleanup ครบทั้ง 4 ข้อข้างต้นแล้ว ให้เข้าไปเลือกในระบบ myCourseVille:
+> - **Question 3: AWS cleanup** $\rightarrow$ ติ๊กเลือก **`(•) Yes`** (1 point)
 
 ---
 
-### Step 7: ตรวจสอบและส่งงานบนระบบ mCV
-ก่อนกด Submit บน mCV ให้ตรวจสอบความครบถ้วนอีกครั้ง:
-- [ ] แนบไฟล์ Screenshot 1: SageMaker Jupyter Notebook
-- [ ] แนบไฟล์ Screenshot 2: หน้าเว็บ People Counting Services
-- [ ] แนบไฟล์ Excel: `People counting record sheet.xlsx`
-- [ ] กรอกคำตอบ Question 1 (Performance comparison)
-- [ ] กรอกคำตอบ Question 2 (Suitable use cases)
-- [ ] กรอกคำตอบ Question 3 (AWS cleanup confirmation)
+### Step 7: ให้ Feedback และกดส่งงานบน myCourseVille
+1. ตอบคำถาม Feedback 2 ข้อสุดท้าย:
+   - **Question 4: Activity Feedback (1 point):**
+     - คำถาม: *"How difficult was this activity?"*
+     - ตัวเลือก: เลือกตามความรู้สึกจริงของผู้เรียน (`Too easy` / `Just right` / `Too difficult`)
+   - **Question 5: Activity Feedback (1 point):**
+     - คำถาม: *"Suggestions for improvement or other feedback."*
+     - พิมพ์ข้อเสนอแนะในการปรับปรุงกิจกรรม (ดูตัวอย่างแนวคิดได้ใน `sol.md` ข้อ 5)
+2. ตรวจสอบความถูกต้องของไฟล์แนบทั้ง 3 Slots:
+   - [ ] Slot 1: `Screenshot AWS SageMaker (Jupyter Notebook)` (ไฟล์ภาพ $\le$ 20 MB)
+   - [ ] Slot 2: `Screenshot “Welcome to People Counting Services” (Webpage)` (ไฟล์ภาพ $\le$ 20 MB)
+   - [ ] Slot 3: `Completed People counting record sheet (.xlsx)` (ไฟล์ Excel $\le$ 20 MB)
+3. ตรวจสอบการตอบคำถามทั้ง 5 ข้อ:
+   - [ ] Question 1: Performance comparison (กรอกบทวิเคราะห์ครบถ้วน)
+   - [ ] Question 2: Suitable use cases (กรอก Use cases และ Trade-offs ครบถ้วน)
+   - [ ] Question 3: AWS cleanup (เลือก `Yes`)
+   - [ ] Question 4: Activity Feedback - Difficulty (เลือก 1 ช้อยส์)
+   - [ ] Question 5: Activity Feedback - Suggestions (กรอกข้อเสนอแนะ)
+4. คลิกปุ่ม **`Save / Submit`** เพื่อยืนยันการส่งงานทั้ง Worksheet ก่อนวันที่ **2 พฤศจิกายน 2026 เวลา 23:59 น.**
